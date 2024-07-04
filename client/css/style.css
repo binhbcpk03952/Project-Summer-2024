@@ -130,3 +130,25 @@ button.register-end {
 .category-item a:hover {
     color: #c46a2f;
 }
+
+/* form login */
+
+.input-value {
+    border: #111 solid 1px;
+    
+    /* height: 45px; */
+    /* border-radius: 2px; */
+    padding: 9px 15px;
+}
+.input-value:focus {
+    outline: none;
+}
+.add-account {
+    border-radius: 0;
+    padding: 9px 0;
+    border: 1px #111 solid;
+}
+.btn-submit {
+    border-radius: 0;
+    padding: 9px 0;
+}
