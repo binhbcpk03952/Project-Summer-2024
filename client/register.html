@@ -119,7 +119,7 @@
                         <li class="breadcrumb-item"><a href="index.html"
                                 class="nav-link">Trang chủ</a></li>
                         <li class="breadcrumb-item active"
-                            aria-current="page">Đăng nhập</li>
+                            aria-current="page">Đăng kí</li>
                     </ol>
                 </nav>
             </div>
@@ -128,35 +128,56 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-login">
-                            <h2 class="fs-3 fw-bold">ĐĂNG NHẬP</h2>
-                            <p>Đăng nhập để có những trải nghiệm tốt nhất của
+                            <h2 class="fs-3 fw-bold">ĐĂNG KÍ</h2>
+                            <p>Đăng kí để có những trải nghiệm tốt nhất của
                                 cửa
                                 hàng chúng tôi</p>
 
                             <form action="" class="mt-4">
-                                <div class="email-phone">
-                                    <label for class="form-label m-0">Email hoặc Tên đăng nhập<span class="text-danger">*</span></label>
-                                    <input type="text" name="email" id="email"
+                                <div class="name-value">
+                                    <label for class="form-label m-0">Tên <span class="text-danger">*</span></label>
+                                    <input type="text" name="fullname" id="fullname"
                                         class="input-value d-block w-100">
                                 </div>
-                                <div class="password-login mt-4">
-                                    <label for class="form-label m-0">Mật khẩu <span class="text-danger">*</span></label>
-                                    <input type="password" name="password" id="password"
+                                <div class="username-value mt-4">
+                                    <label for class="form-label m-0">Tên đăng nhập <span class="text-danger">*</span></label>
+                                    <input type="text" name="username " id="username"
                                         class="input-value d-block w-100">
-                                    
-                                    <i class="fa-regular fa-eye show-password" onmousedown="showPassword()" onmouseup="endPass()"></i>
                                 </div>
-                                <div class="forgot-pass text-end mt-3">
-                                    <a href="#"
-                                        class="text- text-decoration-none text-warning">
-                                        Quên mật khẩu?
-                                    </a>
+                                <div class="email-value mt-4">
+                                    <label for class="form-label m-0">Email <span class="text-danger">*</span></label>
+                                    <input type="email" name="email" id="email"
+                                        class="input-value d-block w-100">
                                 </div>
-                                <button class="btn btn-dark w-100 btn-submit">ĐĂNG NHẬP</button>
+                                <div class="password-value mt-4">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for class="form-label m-0">Mật khẩu <span class="text-danger">*</span></label>
+                                            <input type="text" name="password " id="password"
+                                                class="input-value d-block w-100">
+                                        </div>
+                                        <div class="col-md-6">
+                                                <label for class="form-label m-0">Xác nhận mật khẩu <span class="text-danger">*</span></label>
+                                                <input type="text" name="passwordConfirm" id="passwordCofirm"
+                                                    class="input-value d-block w-100">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="number-phone mt-4">
+                                    <label for class="form-label m-0 d-block">Số điện thoại <span class="text-danger">*</span></label>
+                                    <input type="text" name="numberPhone" id="numberPhone"
+                                        class="input-value d-block w-100">
+                                </div>
+                                <div class="terms mt-3">
+                                    <input type="checkbox" name="term" id="term">
+                                    <label for="">Tôi đã đọc và đồng ý với các <a href="#" class="text-decoration-none">điều khoản</a></label>
+                                </div>
+                                <button class="btn btn-dark w-100 btn-submit mt-4">ĐĂNG KÍ</button>
                             </form>
-                                <a href="#" class="text-decoration-none text-dark d-block text-center add-account mt-5">
-                                    TẠO TÀI KHOẢN
-                                </a>
+                            <div class="text-end mt-1">
+                                <p>Bạn đã có tài khoản? <a href="login.html" class="text-decoration-none">Đăng nhập</a></p>
+                            </div>
+                               
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -276,7 +297,6 @@
         <script>
             lucide.createIcons();
         </script>
-        <script src="./js/main.js"></script>
     </body>
 
 </html>
