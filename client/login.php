@@ -1,3 +1,50 @@
+<?php
+    include_once ("./DBUntil.php");
+    $dbHelper = new DBUntil();
+
+    session_start();
+    $errors = [];
+    $email = "";
+    $password = "";
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (!isset($_POST['email']) || empty($_POST['email'])) {
+            $errors['email'] = "Email hoặc tên đăng nhập là bắt buộc";
+        } else {
+            $username = $_POST['email'];
+        }
+
+        if (!isset($_POST['password']) || empty($_POST['password'])) {
+            $errors['password'] = "Mật khẩu là bắt buộc";
+        } elseif (strlen($_POST['password']) < 6) {
+            $errors['password'] = "Mật khẩu phải có độ dài ít nhất 6 ký tự.";
+        } else {
+            $password = $_POST['password'];
+        }
+
+        if (count($errors) == 0) {
+            $query = $dbHelper->select("SELECT * FROM userss");
+            // var_dump($query);
+            if (count($query) > 0) {
+                foreach ($query as $query) {
+                    if (($query['email'] == $email && $query['password'] == $password) || $query['username'] == $email && $query['password']) {
+                        // Redirect user after successful login
+                        $_SESSION['id'] = $query['IdUser'];
+                        // echo $_SESSION['id'];
+                        header('Location: index.html');
+                        exit();
+                    } else {
+                        $errors['login'] = "Sai username hoặc password.";
+                    }
+                }
+            }
+             else {
+                $errors['login'] = "Sai username hoặc password.";
+            }
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -133,11 +180,16 @@
                                 cửa
                                 hàng chúng tôi</p>
 
-                            <form action="" class="mt-4">
+                            <form action="" class="mt-4" method="POST">
                                 <div class="email-phone">
                                     <label for class="form-label m-0">Email hoặc Tên đăng nhập<span class="text-danger">*</span></label>
                                     <input type="text" name="email" id="email"
                                         class="input-value d-block w-100">
+                                    <?php
+                                        if (isset($errors['email'])) {
+                                            echo "<span class='errors text-danger'>{$errors['email']}</span>";
+                                        }
+                                    ?>
                                 </div>
                                 <div class="password-login mt-4">
                                     <label for class="form-label m-0">Mật khẩu <span class="text-danger">*</span></label>
@@ -148,6 +200,11 @@
                                         onmousedown="showPassword()" 
                                         onmouseup="endPass()"
                                         onmouseleave="endPass()"></i>
+                                    <?php
+                                        if (isset($errors['password'])) {
+                                            echo "<span class='errors text-danger'>{$errors['password']}</span>";
+                                        }
+                                    ?>
                                 </div>
                                 <div class="forgot-pass text-end mt-3">
                                     <a href="#"
