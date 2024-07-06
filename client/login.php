@@ -144,7 +144,10 @@
                                     <input type="password" name="password" id="password"
                                         class="input-value d-block w-100">
                                     
-                                    <i class="fa-regular fa-eye show-password" onmousedown="showPassword()" onmouseup="endPass()"></i>
+                                    <i class="fa-regular fa-eye show-password"
+                                        onmousedown="showPassword()" 
+                                        onmouseup="endPass()"
+                                        onmouseleave="endPass()"></i>
                                 </div>
                                 <div class="forgot-pass text-end mt-3">
                                     <a href="#"

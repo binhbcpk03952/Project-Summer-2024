@@ -166,3 +166,24 @@ button.register-end {
 div>label {
     font-size: 14px;
 }
+.nav-items {
+    position: relative;
+    padding: 5px 0;
+}
+.nav-items::before {
+    content: "";
+    width: 100%;
+    height: 2px;
+    background-color: #c46a2f;
+    position: absolute;
+    top: 100%;
+    display: none;
+    transition: 0.5s;
+}
+.nav-items:hover {
+    color: #c46a2f;
+}
+
+.nav-items:hover::before{
+    display: block;
+}
