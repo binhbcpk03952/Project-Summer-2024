@@ -1,3 +1,103 @@
+<?php
+    include_once ("./DBUntil.php");
+    $dbHelper = new DBUntil();
+    function isVietnamesePhoneNumber($number){
+        return preg_match('/^(03|05|07|08|09|01[2689])[0-9]{8}$/', $number) === 1;
+    }
+    function ischeckmail($email){
+        $dbHelper = new DBUntil();
+        $emailExists = $dbHelper->select("SELECT email FROM userss WHERE email = ?", [$email]);
+        return count($emailExists) > 0;
+    }
+    function ischeckUsername($username){
+        $dbHelper = new DBUntil();
+        $UsernameExists = $dbHelper->select("SELECT username FROM userss WHERE username = ?", [$username]);
+        return count($UsernameExists) > 0;
+    }
+    $errors = [];
+    $email = "";
+    $username = "";
+    $password = "";
+    $name = "";
+    $phone = "";
+    $passwordConfirm = "";
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (!isset($_POST['name']) || empty($_POST['name'])) {
+            $errors['name'] = "Tên là bắt buộc";
+        } else {
+            $name = $_POST['name'];
+        }
+        if (!isset($_POST['username']) || empty($_POST['username'])) {
+            $errors['username'] = "Tên đăng nhập là bắt buộc";
+        }else {
+            if (ischeckUsername($_POST["username"])) {
+                $errors['username'] = "Tên đăng nhập đã tồn tại";
+            } else {
+                $username = $_POST['username'];
+            }
+        }
+        if (!isset($_POST['email']) || empty($_POST['email'])) {
+            $errors['email'] = "Email là bắt buộc";
+        } else {
+            if (ischeckmail($_POST["email"])) {
+                $errors['email'] = "Email đã tồn tại";
+            } else {
+                $email = $_POST['email'];
+            }
+        }
+        if (!isset($_POST['password']) || empty($_POST['password'])) {
+            $errors['password'] = "Mật khẩu là bắt buộc";
+        } elseif (strlen($_POST['password']) < 6) {
+            $errors['password'] = "Mật khẩu phải có độ dài ít nhất 6 ký tự.";
+        } else {
+            $password = $_POST['password'];
+        }
+        if (!isset($_POST['passwordConfirm']) || empty($_POST['passwordConfirm'])) {
+            $errors['passwordConfirm'] = "Xác nhận mật khẩu là bắt buộc";
+        } elseif (strlen($_POST['passwordConfirm']) < 6) {
+            $errors['passwordConfirm'] = "Mật khẩu phải có độ dài ít nhất 6 ký tự.";
+        }elseif($_POST['passwordConfirm'] != $password){
+            $errors['passwordConfirm'] = "Xác nhận mật khẩu không đúng";
+        }else {
+            $passwordConfirm = $_POST['passwordConfirm'];
+        }
+        if (!isset($_POST['phone']) || empty($_POST['phone'])) {
+            $errors['phone'] = "Số điện thoại là bắt buộc";
+        } else {
+            if (!isVietnamesePhoneNumber($_POST['phone'])) {
+                $errors['phone'] = "Số điện thoại không được định dạng chính xác";
+            } else {
+                $phone = $_POST['phone'];
+            }
+        }
+        if (!isset($_POST['term']) || empty($_POST['term'])) {
+            $errors['term'] = "Điều khoản là bắt buộc";
+        }
+
+        // If no errors, insert data into the database
+    if (empty($errors)) {
+        $data = [
+            'name' => $name,
+            'username' => $username,
+            'email' => $email,
+            'password' => $password,
+            'phone' => $phone,
+        ];
+        
+        $isCreate = $dbHelper->insert('userss', $data);
+
+        if ($isCreate) {
+            // Redirect to the same page to see the new record in the table
+            header("Location: " . $_SERVER['PHP_SELF']);
+            echo "<script>alert('Đăng ký tài khoản thành công!');</script>";
+            exit();
+        } else {
+            $errors['database'] = "Failed to create new user";
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -133,49 +233,84 @@
                                 cửa
                                 hàng chúng tôi</p>
 
-                            <form action="" class="mt-4">
+                            <form action="" class="mt-4" method="POST">
                                 <div class="name-value">
                                     <label for class="form-label m-0">Tên <span class="text-danger">*</span></label>
-                                    <input type="text" name="fullname" id="fullname"
+                                    <input type="text" name="name" id="name"
                                         class="input-value d-block w-100">
+                                    <?php
+                                        if (isset($errors['name'])) {
+                                            echo "<span class='errors text-danger'>{$errors['name']}</span>";
+                                        }
+                                    ?>
                                 </div>
                                 <div class="username-value mt-4">
                                     <label for class="form-label m-0">Tên đăng nhập <span class="text-danger">*</span></label>
-                                    <input type="text" name="username " id="username"
+                                    <input type="text" name="username" id="username"
                                         class="input-value d-block w-100">
+                                        <?php
+                                        if (isset($errors['username'])) {
+                                            echo "<span class='errors text-danger'>{$errors['username']}</span>";
+                                        }
+                                    ?>
                                 </div>
                                 <div class="email-value mt-4">
                                     <label for class="form-label m-0">Email <span class="text-danger">*</span></label>
                                     <input type="email" name="email" id="email"
                                         class="input-value d-block w-100">
+                                        <?php
+                                        if (isset($errors['email'])) {
+                                            echo "<span class='errors text-danger'>{$errors['email']}</span>";
+                                        }
+                                    ?>
                                 </div>
                                 <div class="password-value mt-4">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <label for class="form-label m-0">Mật khẩu <span class="text-danger">*</span></label>
-                                            <input type="text" name="password " id="password"
+                                            <input type="password" name="password" id="password"
                                                 class="input-value d-block w-100">
+                                                <?php
+                                        if (isset($errors['password'])) {
+                                            echo "<span class='errors text-danger'>{$errors['password']}</span>";
+                                        }
+                                    ?>
                                         </div>
                                         <div class="col-md-6">
                                                 <label for class="form-label m-0">Xác nhận mật khẩu <span class="text-danger">*</span></label>
-                                                <input type="text" name="passwordConfirm" id="passwordCofirm"
+                                                <input type="password" name="passwordConfirm" id="passwordCofirm"
                                                     class="input-value d-block w-100">
+                                                    <?php
+                                        if (isset($errors['passwordConfirm'])) {
+                                            echo "<span class='errors text-danger'>{$errors['passwordConfirm']}</span>";
+                                        }
+                                    ?>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="number-phone mt-4">
                                     <label for class="form-label m-0 d-block">Số điện thoại <span class="text-danger">*</span></label>
-                                    <input type="text" name="numberPhone" id="numberPhone"
+                                    <input type="text" name="phone" id="phone"
                                         class="input-value d-block w-100">
+                                        <?php
+                                        if (isset($errors['phone'])) {
+                                            echo "<span class='errors text-danger'>{$errors['phone']}</span>";
+                                        }
+                                    ?>
                                 </div>
                                 <div class="terms mt-3">
                                     <input type="checkbox" name="term" id="term">
-                                    <label for="">Tôi đã đọc và đồng ý với các <a href="#" class="text-decoration-none">điều khoản</a></label>
+                                    <label for="">Tôi đã đọc và đồng ý với các <a href="#" class="text-decoration-none ">điều khoản</a></label>
+                                    <?php
+                                        if (isset($errors['term'])) {
+                                            echo "<span class='errors text-danger d-block'>{$errors['term']}</span>";
+                                        }
+                                    ?>
                                 </div>
                                 <button class="btn btn-dark w-100 btn-submit mt-4">ĐĂNG KÍ</button>
                             </form>
                             <div class="text-end mt-1">
-                                <p>Bạn đã có tài khoản? <a href="login.html" class="text-decoration-none">Đăng nhập</a></p>
+                                <p>Bạn đã có tài khoản? <a href="login.php  " class="text-decoration-none">Đăng nhập</a></p>
                             </div>
                                
                         </div>
