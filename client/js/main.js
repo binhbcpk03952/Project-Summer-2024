@@ -24,7 +24,28 @@ document.body.addEventListener('click', (e) => {
     }
 });
 
+$(document).ready(function(){
+    $('.slider').slick({
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        adaptiveHeight: true,
+        prevArrow: '<button type="button" class="slick-prev">Previous</button>',
+        nextArrow: '<button type="button" class="slick-next">Next</button>'
+    });
+});
+
 // document.querySelector('.btn-dropdown').addEventListener('click', (e) => {
 //     e.stopPropagation();
 //     showDropdown();
 // });
+
+function updateQuantity(num) {
+    const quantityCart = document.querySelector('#quantity-cart') 
+
+    if (quantityCart.value < 1) {
+        quantityCart.value = 1;
+    }
+    quantityCart.value += num;
+}

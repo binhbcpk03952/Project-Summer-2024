@@ -1,49 +1,16 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const slides = document.querySelectorAll('.slide');
-    let currentIndex = 0;
+function updateQuantity(element, num) {
+    const quantityInput = element.parentElement.querySelector('.quantity-cart');
+    let quantity = parseInt(quantityInput.value); // Lấy giá trị hiện tại và chuyển đổi sang số nguyên
 
-    const showSlide = (index) => {
-        slides.forEach((slide, i) => {
-            slide.classList.toggle('active', i === index);
-        });
-    };
+    if (isNaN(quantity)) {
+        quantity = 1; 
+    }
 
-    const nextSlide = () => {
-        currentIndex = (currentIndex + 1) % slides.length;
-        showSlide(currentIndex);
-    };
+    quantity += num;
 
-    const prevSlide = () => {
-        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-        showSlide(currentIndex);
-    };
+    if (quantity < 1) {
+        quantity = 1; 
+    }
 
-    document.querySelector('.next').addEventListener('click', nextSlide);
-    document.querySelector('.prev').addEventListener('click', prevSlide);
-
-    let startX;
-    let endX;
-
-    const handleTouchStart = (event) => {
-        startX = event.touches[0].clientX;
-    };
-
-    const handleTouchMove = (event) => {
-        endX = event.touches[0].clientX;
-    };
-
-    const handleTouchEnd = () => {
-        if (startX - endX > 50) {
-            nextSlide();
-        } else if (endX - startX > 50) {
-            prevSlide();
-        }
-    };
-
-    const slider = document.querySelector('.slider');
-    slider.addEventListener('touchstart', handleTouchStart);
-    slider.addEventListener('touchmove', handleTouchMove);
-    slider.addEventListener('touchend', handleTouchEnd);
-
-    showSlide(currentIndex);
-});
+    quantityInput.value = quantity;
+}
