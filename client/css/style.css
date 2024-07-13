@@ -1,8 +1,8 @@
-
 :root {
     --font-body: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
 }
+
 * {
     padding: 0;
     margin: 0;
@@ -13,24 +13,30 @@ body {
     font-family: var(--font-body);
     position: relative;
 }
-.logo-image img{
+
+.logo-image img {
     width: 165px;
 }
+
 ul {
     padding: 0;
     margin: 0;
 }
-.header-search button{
+
+.header-search button {
     border: none;
     background-color: transparent;
 }
+
 .header-search input {
     border: none;
     background-color: transparent;
 }
+
 .header-search input:focus {
     outline: none;
 }
+
 .header-search {
     /* border: 1px black solid; */
     border-radius: 20px;
@@ -41,6 +47,7 @@ ul {
 .cart-user ul li a svg.lucide {
     color: #111;
 }
+
 nav ul li a {
     text-decoration: none;
     color: #111;
@@ -56,12 +63,15 @@ nav ul li a {
 .footer-items ul li a:hover {
     color: #c46a2f;
 }
+
 .header-outstanding {
     background-color: #CFD3CB;
 }
+
 .start-item img {
     width: 100%;
 }
+
 .btn_add--checkout {
     font-size: 15px;
     background-color: #fff;
@@ -76,57 +86,70 @@ nav ul li a {
     transition: 0.6s;
     z-index: -1;
 }
+
 .btn_add--checkout:hover {
     background-color: #c46a2f;
     color: #fff;
 }
-.image-product{
+
+.image-product {
     position: relative;
 }
 
-.image-product:hover .btn_add--checkout{
+.image-product:hover .btn_add--checkout {
     /* display: block; */
     opacity: 1;
     top: 85%;
     z-index: 1;
 }
-.image-product:hover .image-product-links>img{
+
+.image-product:hover .image-product-links>img {
     opacity: 0.85;
     z-index: 2;
 }
+
 .image-product-links>img {
     width: 100%;
 }
+
 .form-status {
     background-color: #f2f2f2;
 }
-.input-email input{
+
+.input-email input {
     border-top: none;
     border-left: none;
     border-right: none;
     border-bottom: 1px solid black;
     background-color: transparent;
 }
+
 .input-email input:focus {
     outline: none
 }
+
 button.register-end {
     border-radius: 2px;
 }
+
 .register-text {
     font-size: 14px;
 }
+
 .form-status {
     height: 100%;
 }
+
 .category-item {
     list-style-type: none;
 }
+
 .category-item a {
     text-decoration: none;
     color: #111;
     font-size: 15px;
 }
+
 .category-item a:hover {
     color: #c46a2f;
 }
@@ -135,19 +158,22 @@ button.register-end {
 
 .input-value {
     border: #111 solid 1px;
-    
+
     /* height: 45px; */
     /* border-radius: 2px; */
     padding: 9px 15px;
 }
+
 .input-value:focus {
     outline: none;
 }
+
 .add-account {
     border-radius: 0;
     padding: 9px 0;
     border: 1px #111 solid;
 }
+
 .btn-submit {
     border-radius: 0;
     padding: 9px 0;
@@ -163,13 +189,16 @@ button.register-end {
     right: 15px;
     cursor: pointer;
 }
+
 div>label {
     font-size: 14px;
 }
+
 .nav-items {
     position: relative;
     padding: 5px 0;
 }
+
 .nav-items::before {
     content: "";
     width: 100%;
@@ -180,38 +209,44 @@ div>label {
     display: none;
     transition: 0.5s;
 }
+
 .nav-items:hover {
     color: #c46a2f;
 }
 
-.nav-items:hover::before{
+.nav-items:hover::before {
     display: block;
 }
+
 .errors {
     font-size: 14px;
 }
 
-.btn-dropdown img{
+.btn-dropdown img {
     width: 35px;
     border-radius: 50%;
 }
+
 .btn-dropdown {
     border: none;
     background-color: transparent;
 }
- 
+
 .dropdown-menu {
     /* display: block; */
     right: 0;
 }
+
 .add {
     display: block;
 }
 
 .slick-slide {
     color: #fff;
-    height: 487px; /* Chiều cao cố định */
-    font-size: 2vw; /* Sử dụng vw để phông chữ tỷ lệ với chiều rộng màn hình */
+    height: 487px;
+    /* Chiều cao cố định */
+    font-size: 2vw;
+    /* Sử dụng vw để phông chữ tỷ lệ với chiều rộng màn hình */
 }
 
 .slick-slide img {
@@ -220,22 +255,25 @@ div>label {
     max-height: 100%;
     object-fit: cover;
 }
+
 .slick-next {
     right: 18px;
 }
+
 .slick-prev {
     left: 18px;
     z-index: 2;
 }
+
 .slick-dots li button:before {
-    top:-30px;
+    top: -30px;
     width: 10px;
     height: 10px;
     padding: 0;
     color: #CFD3CB;
 }
 
-.image-products{
+.image-products {
     width: 70px;
 }
 
@@ -244,6 +282,7 @@ div>label {
     align-items: center;
     justify-content: center;
 }
+
 .quantity-cart {
     width: 32px;
     text-align: center;
@@ -251,63 +290,105 @@ div>label {
     border-left: #676767 solid 1px;
     border-right: #676767 solid 1px;
 }
+
 .quantity {
     border: #676767 solid 1px;
     width: 93px;
 }
- .prev, .pluss {
+
+.prev,
+.pluss {
     width: 25px;
     border: none;
     background-color: transparent;
- }
- .prev:active, .pluss:active {
+}
+
+.prev:active,
+.pluss:active {
     background-color: #CFD3CB;
- }
- .table-cart tbody tr td {
+}
+
+.table-cart tbody tr td {
     vertical-align: middle
- }
- .product-size, .product-color, .name-products {
+}
+
+.product-size,
+.product-color,
+.name-products {
     font-size: 14px;
     margin: 8px 0;
- }
- .remove-cart a {
+}
+
+.remove-cart a {
     color: #c46a2f;
- }
- .general-cart {
+}
+
+.general-cart {
     width: 40%;
- }
+}
 
- .color-main {
+.color-main {
     color: #c46a2f;
- }
+}
 
- .toCheck{
+.toCheck {
     border: #111 1px solid;
- }
- .forgot-pass {
+}
+
+.forgot-pass {
     /* flex-direction: column; */
- }
- .forgot-main {
+}
+
+.forgot-main {
     width: 470px;
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
- }
- .text-small {
-    font-size: 14px;
- }
+}
 
- .value-forgot {
+.text-small {
+    font-size: 14px;
+}
+
+.value-forgot {
     border: none;
     background-color: #F7F7F9;
     padding: 9px 15px;
     border: 1px transparent solid;
- }
- .value-forgot:focus {
+}
+
+.value-forgot:focus {
     outline: none;
     border: #111 solid 1px;
     background-color: transparent;
- }
+}
 
- .btn-forgot {
+.btn-forgot {
     border-radius: 0;
- }
+}
+
+.aside-list {
+    line-height: 2;
+}
+
+.aside-account-list {
+    color: #111;
+    position: relative;
+}
+.aside-account-list::before {
+    content: "";
+    width: 20px;
+    background-color: #111;
+    height: 1.5px;
+    transform: rotate(90deg);
+    position: absolute;
+    top: 45%;
+    left: -18px;
+    display: none;
+}
+.aside-account-list:hover {
+    color: #c46a2f;
+}
+.aside-account-list:hover::before {
+    background-color: #c46a2f;
+    display: block;
+}
