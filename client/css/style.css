@@ -284,3 +284,30 @@ div>label {
  .toCheck{
     border: #111 1px solid;
  }
+ .forgot-pass {
+    /* flex-direction: column; */
+ }
+ .forgot-main {
+    width: 470px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+ }
+ .text-small {
+    font-size: 14px;
+ }
+
+ .value-forgot {
+    border: none;
+    background-color: #F7F7F9;
+    padding: 9px 15px;
+    border: 1px transparent solid;
+ }
+ .value-forgot:focus {
+    outline: none;
+    border: #111 solid 1px;
+    background-color: transparent;
+ }
+
+ .btn-forgot {
+    border-radius: 0;
+ }

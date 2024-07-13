@@ -1,6 +1,6 @@
 function updateQuantity(element, num) {
     const quantityInput = element.parentElement.querySelector('.quantity-cart');
-    let quantity = parseInt(quantityInput.value); // Lấy giá trị hiện tại và chuyển đổi sang số nguyên
+    let quantity = parseInt(quantityInput.value); 
 
     if (isNaN(quantity)) {
         quantity = 1; 
