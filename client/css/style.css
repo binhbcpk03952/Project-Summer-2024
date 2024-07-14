@@ -188,6 +188,7 @@ button.register-end {
     top: 38px;
     right: 15px;
     cursor: pointer;
+    z-index: 2;
 }
 
 div>label {
@@ -377,7 +378,7 @@ div>label {
 .aside-account-list::before {
     content: "";
     width: 20px;
-    background-color: #111;
+    background-color: #c46a2f;
     height: 1.5px;
     transform: rotate(90deg);
     position: absolute;
@@ -391,4 +392,43 @@ div>label {
 .aside-account-list:hover::before {
     background-color: #c46a2f;
     display: block;
+}
+.focus-in.aside-account-list, .focus-in.aside-account-list::before {
+    color: #c46a2f;
+    display: block;
+}
+
+.change-password{
+    text-decoration: none;
+    color: #c46a2f;
+    cursor: pointer;
+}
+
+.load-change {
+    display: none;
+}
+.show {
+    display: block;
+}
+.coupon-input input{
+    border: 1px solid #676767;
+    width: 80%;
+    padding: 5px 15px;
+}
+.coupon-input input:focus {
+    outline: none;
+}
+.coupon-input button{
+    border: none;
+    width: 19.2%;
+    padding: 6px 15px;
+    background-color: #c46a2f;
+    color: #fff;
+}
+
+.position-sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 100;
+    top: 20px;
 }

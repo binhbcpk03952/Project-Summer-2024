@@ -126,12 +126,15 @@
 
             <div class="container form">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3 mt-1">
                         <div class="aside-account mt-4">
                             <h2 class="fw-bold fs-3">TÀI KHOẢN</h2>
                             <ul class="mx-3 aside-list">
                                 <li class="nav-link">
-                                    <a href="#" class="text-decoration-none aside-account-list">Thông tin tài khoản</a>
+                                    <a href="#" class="text-decoration-none aside-account-list
+                                    focus-in">
+                                        Thông tin tài khoản
+                                    </a>
                                 </li>
                                 <li class="nav-link">
                                     <a href="#" class="text-decoration-none aside-account-list">Địa chỉ</a>
@@ -151,47 +154,59 @@
                                 <div class="name-value">
                                     <label for class="form-label m-0">Tên <span class="text-danger">*</span></label>
                                     <input type="text" name="name" id="name"
-                                        class="input-value d-block w-100">
+                                        class="value-forgot d-block w-100">
                                 </div>
                                 <div class="username-value mt-4">
                                     <label for class="form-label m-0">Tên đăng nhập <span class="text-danger">*</span></label>
                                     <input type="text" name="username" id="username"
-                                        class="input-value d-block w-100">
+                                        class="value-forgot d-block w-100">
                                 </div>
                                 <div class="email-value mt-4">
                                     <label for class="form-label m-0">Email <span class="text-danger">*</span></label>
                                     <input type="email" name="email" id="email"
-                                        class="input-value d-block w-100">
-                                </div>
-                                <div class="password-value mt-4">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label for class="form-label m-0">Mật khẩu <span class="text-danger">*</span></label>
-                                            <input type="password" name="password" id="password"
-                                                class="input-value d-block w-100">
-                                        </div>
-                                        <div class="col-md-6">
-                                                <label for class="form-label m-0">Xác nhận mật khẩu <span class="text-danger">*</span></label>
-                                                <input type="password" name="passwordConfirm" id="passwordCofirm"
-                                                    class="input-value d-block w-100">
-                                        </div>
-                                    </div>
+                                        class="value-forgot d-block w-100">
                                 </div>
                                 <div class="number-phone mt-4">
                                     <label for class="form-label m-0 d-block">Số điện thoại <span class="text-danger">*</span></label>
                                     <input type="text" name="phone" id="phone"
-                                        class="input-value d-block w-100">
+                                        class="value-forgot d-block w-100">
                                 </div>
-                                <div class="terms mt-3">
-                                    <input type="checkbox" name="term" id="term">
-                                    <label for="">Tôi đã đọc và đồng ý với các <a href="#" class="text-decoration-none ">điều khoản</a></label>
+                                <div class="password-value password-login mt-4">
+                                    <div class="d-flex justify-content-between">
+                                        <label for class="form-label m-0">Mật khẩu <span class="text-danger">*</span></label>
+                                        <span class="change-password" onclick="changePassword()">Đặt lại mật khẩu?</span>
+                                    </div>
+                                    <input type="password" name="password" id="password"
+                                        class="value-forgot d-block w-100 password" oninput="change(this)">
+                                        <i class="fa-regular fa-eye show-password d-none"
+                                            onmousedown="showPassword(this)"
+                                            onmouseup="endPass(this)" onmouseleave="endPass(this)">
+                                        </i>
                                 </div>
-                                <button class="btn btn-dark w-100 btn-submit mt-4">ĐĂNG KÍ</button>
+                                <div class="load-change">
+                                    <div class="new-password password-login mt-4">
+                                        <label for class="form-label m-0">Mật khẩu mới<span class="text-danger">*</span></label>
+                                        <input type="password" name="newPassword" id="newPassword" 
+                                            class="value-forgot d-block w-100 password" oninput="change(this)">
+                                        <i class="fa-regular fa-eye show-password d-none"
+                                            onmousedown="showPassword(this)"
+                                            onmouseup="endPass(this)" onmouseleave="endPass(this)">
+                                        </i>
+                                    </div>
+                                    <div class="new-passwordConfirm password-login mt-4">
+                                        <label for class="form-label m-0">Nhập lại mật khẩu mới<span class="text-danger">*</span></label>
+                                        <input type="password" name="newPasswordConfirm" id="newPasswordConfirm"
+                                            class="value-forgot d-block w-100 password" oninput="change(this)">
+                                        <i class="fa-regular fa-eye show-password d-none"
+                                            onmousedown="showPassword(this)"
+                                            onmouseup="endPass(this)" onmouseleave="endPass(this)">
+                                        </i>
+                                    </div>
+                                </div>
+
+
+                                <button class="btn btn-dark w-100 btn-submit mt-4">CẬP NHẬT</button>
                             </form>
-                            <div class="text-end mt-1">
-                                <p>Bạn đã có tài khoản? <a href="login.php  " class="text-decoration-none">Đăng nhập</a></p>
-                            </div>
-                               
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -308,6 +323,8 @@
         <script>
             lucide.createIcons();
         </script>
+        <script src="js/script.js"></script>
+        <!-- <script src="js/main.js"></script> -->
     </body>
 
 </html>

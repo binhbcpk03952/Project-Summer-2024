@@ -1,54 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Slider Example</title>
-        <style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ví dụ Position Sticky</title>
+    <style>
         body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-.slider {
-    position: relative;
-    width: 80%;
-    max-width: 600px;
-    overflow: hidden;
-    border: 1px solid #ddd;
-}
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 24px;
+            position: sticky;
+            top: 0;
+        }
 
-.slides {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-}
+        .content {
+            padding: 20px;
+            height: 2000px; /* Tạo nội dung đủ dài để có thể cuộn */
+            background-color: #f4f4f4;
+        }
 
-.slide {
-    min-width: 100%;
-    box-sizing: border-box;
-    padding: 40px;
-    background: #eee;
-    text-align: center;
-}
-
-.navigation {
-    position: absolute;
-    top: 50%;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    transform: translateY(-50%);
-}
-
-.navigation button {
-    background: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-}
-
+        .section {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="section">Nội dung 1</div>
+    <div class="header">
+        Đây là tiêu đề dính (sticky header)
+        <div class="container">
+            day lag noi dung bên trong
+        </div>
+    </div>
+    <div class="content">
+        <div class="section">Nội dung 1</div>
+        <div class="section">Nội dung 2</div>
+        <div class="section">Nội dung 3</div>
+        <div class="section">Nội dung 4</div>
+        <div class="section">Nội dung 5</div>
+    </div>
+</body>
+</html>
