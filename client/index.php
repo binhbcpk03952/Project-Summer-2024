@@ -1,4 +1,7 @@
-
+<?php
+session_start();
+echo ($_SESSION['id']);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -125,7 +128,7 @@
                                         </a>
                                     </li>
                                     <li><a class="dropdown-item"
-                                            href="#">
+                                            href="logout.php">
                                             <i class="fa-solid fa-right-from-bracket mx-1"></i>
                                             Đăng xuất
                                         </a></li>

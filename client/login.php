@@ -30,9 +30,9 @@
                     if (($query['email'] == $email && $query['password'] == $password) || 
                         ($query['username'] == $email && $query['password'] == $password)) {
                         // Redirect user after successful login
-                        // $_SESSION['id'] = $query['IdUser'];
+                        $_SESSION['id'] = $query['IdUser'];
                         // echo $_SESSION['id'];
-                        header('Location: index.html');
+                        header('Location: index.php');
                         exit();
 
                     } else {
@@ -189,7 +189,10 @@
                                 }
                             ?>
                         </form>
-                        <a href="#" class="text-decoration-none text-dark d-block text-center add-account mt-5">
+                        <?php
+                            require_once 'php-google-login/google-login.php';
+                        ?>
+                        <a href="register.php" class="text-decoration-none text-dark d-block text-center add-account mt-5">
                             TẠO TÀI KHOẢN
                         </a>
                     </div>
@@ -307,6 +310,7 @@
     <script>
     lucide.createIcons();
     </script>
+    <script src="https://accounts.google.com/gsi/client" async></script>
     <script src="./js/main.js"></script>
 </body>
 
