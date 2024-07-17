@@ -178,7 +178,7 @@
                                     ?>
                             </div>
                             <div class="forgot-pass text-end mt-3">
-                                <a href="#" class="text- text-decoration-none text-warning">
+                                <a href="forgotPassword/forgotPassword.php" class="text- text-decoration-none text-warning">
                                     Quên mật khẩu?
                                 </a>
                             </div>
