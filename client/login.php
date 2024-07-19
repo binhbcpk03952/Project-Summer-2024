@@ -23,14 +23,14 @@
         }
 
         if (count($errors) == 0) {
-            $query = $dbHelper->select("SELECT * FROM userss");
+            $query = $dbHelper->select("SELECT * FROM users");
             // var_dump($query);
             if (count($query) > 0) {
                 foreach ($query as $query) {
                     if (($query['email'] == $email && $query['password'] == $password) || 
                         ($query['username'] == $email && $query['password'] == $password)) {
                         // Redirect user after successful login
-                        $_SESSION['id'] = $query['IdUser'];
+                        $_SESSION['id'] = $query['idUser'];
                         // echo $_SESSION['id'];
                         header('Location: index.php');
                         exit();

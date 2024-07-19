@@ -14,7 +14,7 @@ function forgotPassword()
     global $dbHelper;
     if (isset($_POST['email']) && !empty($_POST['email'])) {
         $email = $_POST['email'];
-        $users = $dbHelper->select("SELECT * FROM userss WHERE email = :email", ['email' => $email]);
+        $users = $dbHelper->select("SELECT * FROM users WHERE email = :email", ['email' => $email]);
         // var_dump($users);
 
         if ($users && count($users) > 0) {
@@ -24,7 +24,7 @@ function forgotPassword()
                 'otp' => $six_digit_random_number,
                 'otpCreated' => date('Y-m-d H:i:s', strtotime('+1 hour')),
             ];
-            $updateUser = $dbHelper->update('userss', $data  ,"email = '$email'");
+            $updateUser = $dbHelper->update('users', $data  ,"email = '$email'");
                 $_SESSION['email'] = $email;
                 header('Location: updatePassword.php');
             // var_dump(is_bool($updateUser));
@@ -32,7 +32,7 @@ function forgotPassword()
                 try {
                     $result = MailService::send(
                     // send email
-                        'ntdad2005@gmail.com',
+                        'fourprincesshop@gmail.com',
                         $email,
                         'Forgot Password',
                         "
@@ -69,14 +69,14 @@ function resetPassword()
             $errors['passConfirm-forgot'] = "Xác nhận mật khẩu không đúng";
             return;
         }
-        $isCheck = $dbHelper->select("SELECT * FROM userss WHERE email = :email AND otp = :otp AND otpCreated >= :current", [
+        $isCheck = $dbHelper->select("SELECT * FROM users WHERE email = :email AND otp = :otp AND otpCreated >= :current", [
             'email' => $email,
             'otp' => $otp,
             'current' => date('Y-m-d H:i:s')
         ]);
         if ($isCheck && count($isCheck) > 0) {
                // Perform password reset logic here
-               $isReset = $dbHelper->update('userss', array('password'=>$password), "email = '$email'");
+               $isReset = $dbHelper->update('users', array('password'=>$password), "email = '$email'");
                header('Location: http://localhost/project-summer-2024/client/login.php');
             }  else {
                  $errors['otp'] = "Email or OTP is incorrect or expired.";

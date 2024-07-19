@@ -13,11 +13,11 @@ require 'vendor/autoload.php';
 // require 'PHPMailer/src/PHPMailer.php';
 // require 'PHPMailer/src/SMTP.php';
 
-define('USERNAME_EMAIL', 'ntdad2005@gmail.com'); // thay bằng email của các bạn
-define('PASSWORD_EMAIL', 'neoqrbrvqtuonfnv'); // thay bằng password của các bạn
+define('USERNAME_EMAIL', 'fourprincesshop@gmail.com'); // thay bằng email của các bạn
+define('PASSWORD_EMAIL', 'xqwyykgfoquihyes'); // thay bằng password của các bạn
 class MailService
 {
-    public static function send($from = 'ntdad2005@gmail.com', $to = 'ntdad2005@gmail.com', $subject = 'notfication', $content = '')
+    public static function send($from = 'fourprincesshop@gmail.com', $to = 'fourprincesshop@gmail.com', $subject = 'notfication', $content = '')
     {
         try {
             $mail = new PHPMailer();
@@ -32,7 +32,7 @@ class MailService
             $mail->CharSet = 'UTF-8';
             //Recipients
 
-            $mail->setFrom($to, 'datnt shop');
+            $mail->setFrom($to, 'PrincesShop');
             $mail->addAddress($from);               // Name is optional
             // $mail->addReplyTo('info@example.com', 'Information');
             // $mail->addCC('cc@example.com');
