@@ -73,10 +73,12 @@ nav ul li a {
 }
 
 .btn_add--checkout {
-    font-size: 15px;
+    font-size: 16px;
+    width: 200px;
     background-color: #fff;
+    color: #4c4c4c;
     /* border: #111 1px solid; */
-    border-radius: 2px;
+    border-radius: 5px;
     position: absolute;
     left: 50%;
     top: 97%;
@@ -336,9 +338,6 @@ div>label {
     border: #111 1px solid;
 }
 
-.forgot-pass {
-    /* flex-direction: column; */
-}
 
 .forgot-main {
     width: 470px;
@@ -431,4 +430,40 @@ div>label {
     position: sticky;
     z-index: 100;
     top: 20px;
+}
+.btn-toCheckout{
+    border: transparent solid 1px;
+    border-radius: 0;
+    background-color: gray;
+    padding: 6px 15px;
+    color: #fff;
+    transition: 0.2s ease-in;
+}
+.btn-toCheckout:hover{
+    background-color: #cacaca;
+    border: #111 1px solid;
+    color: #111;
+}
+
+/* deital_product  */
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.button-group button {
+    margin: 5px;
+    /* padding: 10px; */
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+.button-group button.active {
+    background-color: #007bff;
+    color: white;
+}
+.btn:hover {
+    border: 1px solid;
 }

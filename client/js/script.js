@@ -63,4 +63,3 @@ function change(element) {
         showPassword.classList.add("d-none")
     }
 }
-

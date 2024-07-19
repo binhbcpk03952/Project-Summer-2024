@@ -1,7 +1,7 @@
 <?php
 include "Database.php";
 define("HOST", "localhost");
-define("DB_NAME", "project-sum2024");
+define("DB_NAME", "demo_projects");
 define("USERNAME", "root");
 define("PASSWORD", "");
 class DBUntil
