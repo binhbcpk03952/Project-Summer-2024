@@ -75,7 +75,7 @@
                                     $colors = array_unique(array_column($product['variants'], 'color'));
                                     foreach ($colors as $color): ?>
                                 <button type="button" class="btn"
-                                    onclick="selectColor('<?php echo $product_id; ?>', '<?php echo $color; ?>')"><?php echo $color; ?></button>
+                                    onclick="selectColor('<?php echo $product_id; ?>', '<?php echo $color; ?>', event)"><?php echo $color; ?></button>
                                 <?php endforeach; ?>
                             </div>
                             <input type="hidden" name="color" id="color-<?php echo $product_id; ?>" required>
@@ -89,7 +89,7 @@
                                     $sizes = array_unique(array_column($product['variants'], 'size'));
                                     foreach ($sizes as $size): ?>
                                 <button type="button" class="btn rouded-1"
-                                    onclick="selectSize('<?php echo $product_id; ?>', '<?php echo $size; ?>')"><?php echo $size; ?></button>
+                                    onclick="selectSize('<?php echo $product_id; ?>', '<?php echo $size; ?>', event)"><?php echo $size; ?></button>
                                 <?php endforeach; ?>
                             </div>
                             <input type="hidden" name="size" id="size-<?php echo $product_id; ?>" required>
@@ -119,25 +119,7 @@
             <div class="col-lg-1"></div>
         </div>
     </div>
-    <script>
-        function selectColor(productId, color) {
-            var colorGroup = document.getElementById('color-group-' + productId);
-            var buttons = colorGroup.getElementsByTagName('button');
-            for (var i = 0; i < buttons.length; i++) {
-                buttons[i].classList.remove('active');
-            }
-            event.target.classList.add('active');
-            document.getElementById('color-' + productId).value = color;
-        }
-
-        function selectSize(productId, size) {
-            var sizeGroup = document.getElementById('size-group-' + productId);
-            var buttons = sizeGroup.getElementsByTagName('button');
-            for (var i = 0; i < buttons.length; i++) {
-                buttons[i].classList.remove('active');
-            }
-            event.target.classList.add('active');
-            document.getElementById('size-' + productId).value = size;
-        }
+    <script src="./js//script.js">
+        
     </script>
     <?php include "./includes/footer.php" ?>

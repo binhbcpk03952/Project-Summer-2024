@@ -63,3 +63,22 @@ function change(element) {
         showPassword.classList.add("d-none")
     }
 }
+function selectColor(productId, color, event) {
+    var colorGroup = document.getElementById('color-group-' + productId);
+    var buttons = colorGroup.getElementsByTagName('button');
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].classList.remove('active');
+    }
+    event.target.classList.add('active');
+    document.getElementById('color-' + productId).value = color;
+}
+
+function selectSize(productId, size, event) {
+    var sizeGroup = document.getElementById('size-group-' + productId);
+    var buttons = sizeGroup.getElementsByTagName('button');
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].classList.remove('active');
+    }
+    event.target.classList.add('active');
+    document.getElementById('size-' + productId).value = size;
+}
