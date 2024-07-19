@@ -6,12 +6,12 @@
     }
     function ischeckmail($email){
         $dbHelper = new DBUntil();
-        $emailExists = $dbHelper->select("SELECT email FROM userss WHERE email = ?", [$email]);
+        $emailExists = $dbHelper->select("SELECT email FROM users WHERE email = ?", [$email]);
         return count($emailExists) > 0;
     }
     function ischeckUsername($username){
         $dbHelper = new DBUntil();
-        $UsernameExists = $dbHelper->select("SELECT username FROM userss WHERE username = ?", [$username]);
+        $UsernameExists = $dbHelper->select("SELECT username FROM users WHERE username = ?", [$username]);
         return count($UsernameExists) > 0;
     }
     $errors = [];
@@ -84,7 +84,7 @@
             'phone' => $phone,
         ];
         
-        $isCreate = $dbHelper->insert('userss', $data);
+        $isCreate = $dbHelper->insert('users', $data);
 
         if ($isCreate) {
             // Redirect to the same page to see the new record in the table

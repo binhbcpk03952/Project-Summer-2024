@@ -23,16 +23,16 @@
         }
 
         if (count($errors) == 0) {
-            $query = $dbHelper->select("SELECT * FROM userss");
+            $query = $dbHelper->select("SELECT * FROM users");
             // var_dump($query);
             if (count($query) > 0) {
                 foreach ($query as $query) {
                     if (($query['email'] == $email && $query['password'] == $password) || 
                         ($query['username'] == $email && $query['password'] == $password)) {
                         // Redirect user after successful login
-                        // $_SESSION['id'] = $query['IdUser'];
+                        $_SESSION['id'] = $query['idUser'];
                         // echo $_SESSION['id'];
-                        header('Location: index.html');
+                        header('Location: index.php');
                         exit();
 
                     } else {
@@ -178,7 +178,7 @@
                                     ?>
                             </div>
                             <div class="forgot-pass text-end mt-3">
-                                <a href="#" class="text- text-decoration-none text-warning">
+                                <a href="forgotPassword/forgotPassword.php" class="text- text-decoration-none text-warning">
                                     Quên mật khẩu?
                                 </a>
                             </div>
@@ -189,7 +189,10 @@
                                 }
                             ?>
                         </form>
-                        <a href="#" class="text-decoration-none text-dark d-block text-center add-account mt-5">
+                        <?php
+                            require_once 'php-google-login/google-login.php';
+                        ?>
+                        <a href="register.php" class="text-decoration-none text-dark d-block text-center add-account mt-5">
                             TẠO TÀI KHOẢN
                         </a>
                     </div>
@@ -307,6 +310,7 @@
     <script>
     lucide.createIcons();
     </script>
+    <script src="https://accounts.google.com/gsi/client" async></script>
     <script src="./js/main.js"></script>
 </body>
 

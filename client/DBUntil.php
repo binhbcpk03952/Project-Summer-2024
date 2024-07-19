@@ -22,6 +22,10 @@ class DBUntil
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         return $stmt->fetchAll();
     }
+    public function query($sql)
+    {
+        return $this->connection->query($sql);
+    }
     
     public function insert($table, $data)
     {
