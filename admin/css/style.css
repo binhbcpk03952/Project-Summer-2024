@@ -104,3 +104,39 @@ header {
     z-index: 2;
     display: flex   ;
 }
+.btn:hover {
+    background-color: important;
+}
+
+.btn-tb {
+    border: none;
+    background-color: transparent;
+    /* text-align: center; */
+}
+.btn-tb:focus {
+    outline: none;
+}
+.btn_remove {
+    background-color: transparent;
+    border: transparent;
+    color: var(--color);
+    font-weight: bold;
+}
+#imagePreview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+#imagePreview img {
+    max-width: 150px;
+    height: auto;
+    display: none;
+}
+.image_list {
+    width: 70px;
+}
+
+.table tbody tr td {
+    vertical-align: center;
+}

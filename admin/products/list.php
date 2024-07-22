@@ -58,10 +58,10 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="">
                         <?php foreach ($listProducts as $product) { ?>
-                            <tr>
-                                <td><?php echo $product['namePic']?></td>
+                            <tr class="align-middle">
+                                <td><img src="./image/<?php echo $product['namePic']?>" alt="" class="image_list"></td>
                                 <td><?php echo $product['nameProduct']?></td>
                                 <td><?php echo $product['price']?></td>
                                 <td><?php echo $product['total_quantity']?></td>

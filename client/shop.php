@@ -2,7 +2,11 @@
     include "./DBUntil.php";
     $dbHelper = new DBUntil();
 
-    $products = $dbHelper->select("SELECT * FROM products");
+    $products = $dbHelper->select("SELECT p.*, MIN(pic.namePic) AS namePic 
+    FROM products p
+    JOIN picproduct pic ON p.idProduct = pic.idProduct
+    GROUP BY p.idProduct
+    ORDER BY p.idProduct");
     // var_dump($product);
 ?>
 
@@ -34,7 +38,7 @@
                             <div class="products-item">
                                 <div class="image-product">
                                     <a href="detail_products.php?id=<?php echo $product['idProduct'] ?>" class="image-product-links">
-                                        <img src="https://owen.cdn.vccloud.vn/media/amasty/webp/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/a/p/apt231405._46_jpg.webp"
+                                        <img src="../admin/products/image/<?php echo $product['namePic'] ?>"
                                             alt class>
                                     </a>
                                     <a href="#" class="text-center text-decoration-none py-2 btn_add--checkout px-2">

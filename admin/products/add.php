@@ -32,8 +32,10 @@
                 'description' => $_POST['description'],
                 'idSubCategory' => $_POST['categories'],
             ];
-            $lastInsertId = $dbHelper->insert('categories', $data);
-            header('Location: list.php');
+            $lastInsertId = $dbHelper->insert('products', $data);
+            $id = $dbHelper->lastInsertId();
+            header("Location: add_color_size.php?id=$id");
+            exit();
         }
     }
 ?>
