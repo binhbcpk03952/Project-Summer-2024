@@ -2,10 +2,13 @@
     include "./DBUntil.php";
     $dbHelper = new DBUntil();
     $id = $_GET['id'];
-    $results = $dbHelper->select("SELECT p.idProduct, p.nameProduct, p.description, p.price, pcs.color, sz.nameSize 
+    $results = $dbHelper->select("SELECT p.idProduct, p.nameProduct, p.description, p.price, pcs.color, sz.nameSize
         FROM products p 
         JOIN product_size_color pcs ON p.idProduct = pcs.idProduct
-        JOIN sizes sz ON sz.idSize = pcs.idSize WHERE p.idProduct = $id");
+        JOIN sizes sz ON sz.idSize = pcs.idSize
+        WHERE p.idProduct = $id");
+
+    $images = $dbHelper->select("SELECT * FROM picproduct WHERE idProduct = ?", [$id]);
     $products = [];
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -40,6 +43,21 @@
 ?>
 
 <?php include "./includes/head.php" ?>
+<style>
+.image_thumbnail .thumbnails {
+    width: 90px;
+    /* Adjust based on the number of thumbnails to fit nicely */
+}
+
+.img-thumbnails {
+    width: 100%;
+    cursor: pointer;
+}
+
+.show_image img {
+    width: 100%;
+}
+</style>
 
 <body>
     <?php include "./includes/header.php" ?>
@@ -58,7 +76,18 @@
             <div class="col-lg-1"></div>
             <div class="col-md-5 me-2">
                 <div class="image_product">
-                    <img src="./image/product_demo.webp" alt="image" class="w-100">
+                    <div class="show_image">
+                        <!-- This div can be used to display the selected image or the main image -->
+                        <img src="../admin/products/image/<?php echo htmlspecialchars($images[0]['namePic']); ?>">
+                    </div>
+                    <div class="image_thumbnail d-flex mt-2">
+                        <?php foreach ($images as $image): ?>
+                        <div class="thumbnails me-2">
+                            <img src="../admin/products/image/<?php echo htmlspecialchars($image['namePic']); ?>"
+                                alt="image" class="img-thumbnails">
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
             </div>
             <div class="col-md-5 ms-3">
@@ -74,8 +103,8 @@
                                 <?php 
                                     $colors = array_unique(array_column($product['variants'], 'color'));
                                     foreach ($colors as $color): ?>
-                                <button type="button" class="btn"
-                                    onclick="selectColor('<?php echo $product_id; ?>', '<?php echo $color; ?>', event)"><?php echo $color; ?></button>
+                                <button type="button" class="btn" style="background-color: <?php echo $color; ?>;"
+                                    onclick="selectColor('<?php echo $product_id; ?>', '<?php echo $color; ?>', event)"></button>
                                 <?php endforeach; ?>
                             </div>
                             <input type="hidden" name="color" id="color-<?php echo $product_id; ?>" required>
@@ -119,7 +148,25 @@
             <div class="col-lg-1"></div>
         </div>
     </div>
-    <script src="./js//script.js">
-        
+    <script src="./js/script.js"></script>
+    <script>
+    // JavaScript to handle the click event on the thumbnails
+    document.addEventListener('DOMContentLoaded', function() {
+        const thumbnails = document.querySelectorAll('.image_thumbnail img');
+        const showImage = document.querySelector('.show_image');
+
+        thumbnails.forEach(thumbnail => {
+            thumbnail.addEventListener('click', function() {
+                // Remove active class from all thumbnails
+                thumbnails.forEach(thumb => thumb.classList.remove('active'));
+
+                // Add active class to the clicked thumbnail
+                thumbnail.classList.add('active');
+
+                // Set the clicked thumbnail image as the main image
+                showImage.innerHTML = `<img src="${thumbnail.src}" alt="main image">`;
+            });
+        });
+    });
     </script>
     <?php include "./includes/footer.php" ?>
