@@ -14,6 +14,11 @@
         $UsernameExists = $dbHelper->select("SELECT username FROM users WHERE username = ?", [$username]);
         return count($UsernameExists) > 0;
     }
+    function ischeckPhone($phone){
+        $dbHelper = new DBUntil();
+        $PhoneExists = $dbHelper->select("SELECT phone FROM users WHERE phone = ?", [$phone]);
+        return count($PhoneExists) > 0;
+    }
     $errors = [];
     $email = "";
     $username = "";
@@ -66,13 +71,17 @@
         } else {
             if (!isVietnamesePhoneNumber($_POST['phone'])) {
                 $errors['phone'] = "Số điện thoại không được định dạng chính xác";
-            } else {
+            }else {
+                if (ischeckPhone($_POST["phone"])) {
+                    $errors['phone'] = "Số điện thoại đã tồn tại"; 
+                }else {
                 $phone = $_POST['phone'];
+                }
             }
-        }
         if (!isset($_POST['term']) || empty($_POST['term'])) {
             $errors['term'] = "Điều khoản là bắt buộc";
         }
+    }
 
         // If no errors, insert data into the database
     if (empty($errors)) {
