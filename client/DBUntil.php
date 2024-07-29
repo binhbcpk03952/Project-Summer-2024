@@ -50,23 +50,31 @@ class DBUntil
         return $this->connection->lastInsertId();
     }
     
-    public function update($table, $data, $condition)
+    public function update($table, $data, $condition, $params = [])
     {
         $updateFields = [];
-        
+    
         foreach ($data as $key => $value) {
             $updateFields[] = "$key = :$key";
         }
         $updateFields = implode(", ", $updateFields);
         $sql = "UPDATE $table SET $updateFields WHERE $condition";
         $stmt = $this->connection->prepare($sql);
+    
+        // Bind data parameters
         foreach ($data as $key => $value) {
             $stmt->bindValue(":$key", $value);
         }
-        
+    
+        // Bind condition parameters
+        foreach ($params as $key => $value) {
+            $stmt->bindValue(":$key", $value);
+        }
+    
         $stmt->execute();
         return $stmt->rowCount();
     }
+    
     
     public function delete($table, $condition)
     {
