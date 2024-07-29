@@ -169,9 +169,9 @@
                                 <label for class="form-label m-0">Mật khẩu <span class="text-danger">*</span></label>
                                 <input type="password" name="password" id="password" class="input-value d-block w-100">
 
-                                <i class="fa-regular fa-eye show-password" onmousedown="showPassword()"
+                                <i class="fa-regular fa-eye show-password d-block" onmousedown="showPassword()"
                                     onmouseup="endPass()" onmouseleave="endPass()"></i>
-                                <?php
+                                    <?php
                                         if (isset($errors['password'])) {
                                             echo "<span class='errors text-danger'>{$errors['password']}</span>";
                                         }

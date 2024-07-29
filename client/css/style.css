@@ -463,9 +463,146 @@ div>label {
 }
 
 .button-group button.active {
-    border: var(--color) solid 3px;
+    border: var(--color) solid 0.2rem;
     /* color: white; */
 }
 .btn:hover {
     border: 1px solid;
+}
+.no-scroll {
+    overflow: hidden;
+}
+#imagePreview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#imagePreview img {
+    max-width: 150px;
+    height: auto;
+    display: none;
+}
+
+.bg-alert {
+    background-color: transparent;
+    height: 100vh;
+
+    /* position: absolute; */
+    /* opacity: 0.1; */
+}
+
+.bg-alert .content_alert {
+    width: 60%;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 10px 10px 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.position_alert {
+    /* position: fixed; */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: flex;
+}
+
+.btn:hover {
+    background-color: important;
+}
+
+.btn-tb {
+    border: none;
+    background-color: transparent;
+    /* text-align: center; */
+}
+
+.btn-tb:focus {
+    outline: none;
+}
+
+.btn_remove {
+    background-color: transparent;
+    border: transparent;
+    color: var(--color);
+    font-weight: bold;
+}
+
+.position_alert {
+    max-height: 100vh;
+    overflow-y: auto;
+    /* Thêm thanh cuộn dọc */
+    overflow-x: hidden;
+    /* Ẩn thanh cuộn ngang */
+    position: fixed;
+}
+
+.content_alert {
+    max-height: 90vh;
+    overflow-y: auto;
+    /* Thêm thanh cuộn dọc */
+    overflow-x: hidden;
+    /* Ẩn thanh cuộn ngang */
+    box-sizing: border-box;
+    /* Đảm bảo padding và border không làm tăng kích thước phần tử */
+}
+.content_alert::-webkit-scrollbar {
+    display: none;
+}
+
+.container-fluid {
+    padding: 0 15px;
+    /* Điều chỉnh padding để tránh tràn chiều rộng */
+    box-sizing: border-box;
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.button-group button {
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    /* padding: 10px; */
+    border: 2px solid #ccc;
+    /* background-color: #f9f9f9; */
+    cursor: pointer;
+}
+
+.button-group button.active {
+    border: #c46a2f solid 0.2rem;
+    /* color: white; */
+}
+
+.btn:hover {
+    border: 1px solid;
+}
+.hidden-box {
+    cursor: pointer;
+}
+
+.image_thumbnail .thumbnails {
+    width: 90px;
+    /* Adjust based on the number of thumbnails to fit nicely */
+}
+
+.img-thumbnails {
+    width: 100%;
+    cursor: pointer;
+}
+
+.show_image img {
+    width: 100%;
+}
+
+.icon_cart {
+    color: #1e8320;
+}
+.bg-alert .alert_cart {
+    width: 40%;
 }

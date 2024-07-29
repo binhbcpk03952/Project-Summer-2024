@@ -1,4 +1,5 @@
 <?php
+    session_start();
     include "./DBUntil.php";
     $dbHelper = new DBUntil();
 
@@ -7,19 +8,22 @@
     JOIN picproduct pic ON p.idProduct = pic.idProduct
     GROUP BY p.idProduct
     ORDER BY p.idProduct");
-    // var_dump($product);
 ?>
 
 <?php include "./includes/head.php" ?>
+
+<!-- Tải jQuery trước mã JavaScript của bạn -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="./js/ajax.js"></script> 
+<script src="./js/script.js"></script>
+
 <body>
     <?php include "./includes/header.php" ?>
-    <!-- banner -->
     <div class="container mt-3">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html" class="nav-link">Trang chủ</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Danh
-                    mục</li>
+                <li class="breadcrumb-item active" aria-current="page">Danh mục</li>
             </ol>
         </nav>
         <div class="row banner">
@@ -38,17 +42,16 @@
                             <div class="products-item">
                                 <div class="image-product">
                                     <a href="detail_products.php?id=<?php echo $product['idProduct'] ?>" class="image-product-links">
-                                        <img src="../admin/products/image/<?php echo $product['namePic'] ?>"
-                                            alt class>
+                                        <img src="../admin/products/image/<?php echo $product['namePic'] ?>" alt>
                                     </a>
-                                    <a href="#" class="text-center text-decoration-none py-2 btn_add--checkout px-2">
+                                    <button type="button" class="product-button border-0 add_cart_btn text-center text-decoration-none py-2 btn_add--checkout px-2"
+                                            data-product-id="<?php echo $product['idProduct'] ?>">
                                         <i class="fa-solid fa-cart-shopping"></i>
                                         Thêm vào giỏ hàng
-                                    </a>
+                                    </button>
                                 </div>
                                 <div class="info_product mt-3">
-                                    <a href="detailProduct.php?id=<?php echo $product['idProduct'] ?>" class="text-secondary fw-bold
-                                         text-decoration-none">
+                                    <a href="detail_products.php?id=<?php echo $product['idProduct'] ?>" class="text-secondary fw-bold text-decoration-none">
                                          <?php echo $product['nameProduct'] ?>
                                     </a>
                                 </div>
@@ -58,10 +61,13 @@
                             </div>
                         </div>
                     <?php } ?>
-
                     </div>
                 </div>
             </main>
         </div>
     </div>
-<?php include "./includes/footer.php" ?>
+    <div class="container-fluid position_alert" id="box_cart"></div>
+
+    <?php include "./includes/footer.php" ?>
+</body>
+</html>

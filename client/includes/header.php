@@ -5,8 +5,7 @@
                 <img src="./image/logo.png" alt>
             </a>
         </div>
-        <!-- nav  -->
-        <?php include "./includes/nav.php" ?>
+        <?php include "nav.php" ?>
         <div class="header-search">
             <button>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -19,7 +18,7 @@
             <input type="search" name="search" class="search" placeholder="Bạn tìm gì...">
         </div>
         <div class="cart-user">
-            <ul class="d-flex justify-content-between ">
+            <ul class="d-flex justify-content-between align-items-center">
                 <li class="nav-link mx-2">
                     <a href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
@@ -42,14 +41,41 @@
                     </a>
                 </li>
                 <li class="nav-link mx-2">
-                    <a href="#">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-user-round">
-                            <circle cx="12" cy="8" r="5" />
-                            <path d="M20 21a8 8 0 0 0-16 0" />
-                        </svg>
-                    </a>
+                    <?php if (!isset($_SESSION['id'])) { echo ' 
+                            <a href="login.php">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"
+                                    stroke-linejoin="round" class="lucide lucide-user-round">
+                                    <circle cx="12" cy="8" r="5" />
+                                    <path d="M20 21a8 8 0 0 0-16 0" />
+                                </svg>
+                            </a>
+                        '; }  else { echo '
+
+                        <div class="dropdown">
+                            <button class="btn-dropdown p-0" onclick="showDropdown()">
+                                <img src="./image/users.webp" alt>
+                            </button>
+                            <ul class="dropdown-menu mt-1">
+                                <li>
+                                    <a class="dropdown-item" href="./accountInformation.html">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-user-round">
+                                            <circle cx="12" cy="8" r="5" />
+                                            <path d="M20 21a8 8 0 0 0-16 0" />
+                                        </svg>
+                                        Thông tin tài khoản
+                                    </a>
+                                </li>
+                                <li><a class="dropdown-item" href="logout.php">
+                                        <i class="fa-solid fa-right-from-bracket mx-1"></i>
+                                        Đăng xuất
+                                    </a></li>
+                            </ul>
+                        </div>
+                        '; } ?>
                 </li>
             </ul>
         </div>

@@ -11,19 +11,7 @@
     $images = $dbHelper->select("SELECT * FROM picproduct WHERE idProduct = ?", [$id]);
     $products = [];
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $product_id = $id;
-        $color = $_POST['color'];
-        $size = $_POST['size'];
-        if (!isset($color) || empty($color)) {
-            $errors['color'] = "Đây là trường bắt buộc";
-        }
     
-        echo $product_id. "<br>";
-        echo $color. "<br>";
-        echo $size. "<br>";
-    }
-
     foreach ($results as $row) {
         $product_id = $row['idProduct'];
         if (!isset($products[$product_id])) {
@@ -39,27 +27,32 @@
             'size' => $row['nameSize']
         ];
     }
-
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $product_id = $id;
+        
+       
+        if (!isset($_POST['color']) || empty($_POST['color'])) {
+            $errors['color'] = "Đây là trường bắt buộc";
+        }
+        else {
+            $color = $_POST['color'];
+        }
+        if (!isset($_POST['size']) || empty($_POST['size'])) {
+            $errors['size'] = "Đây là trường bắt buộc";
+        }
+        else {
+            $size = $_POST['size'];
+        }    
+        echo $product_id. "<br>";
+        echo $color. "<br>";
+        echo $size. "<br>";
+    }
+    
 ?>
 
 <?php include "./includes/head.php" ?>
-<style>
-.image_thumbnail .thumbnails {
-    width: 90px;
-    /* Adjust based on the number of thumbnails to fit nicely */
-}
 
-.img-thumbnails {
-    width: 100%;
-    cursor: pointer;
-}
-
-.show_image img {
-    width: 100%;
-}
-</style>
-
-<body>
+<body class="">
     <?php include "./includes/header.php" ?>
     <!-- banner -->
     <div class="container mt-2">
@@ -108,6 +101,11 @@
                                 <?php endforeach; ?>
                             </div>
                             <input type="hidden" name="color" id="color-<?php echo $product_id; ?>" required>
+                            <?php
+                                if (isset($errors['color'])) {
+                                    echo "<span class='errors text-danger'>{$errors['color']}</span>";
+                                }
+                            ?>
                         </div>
                         <!-- size  -->
                         <div class="product_size mt-3">
@@ -122,6 +120,11 @@
                                 <?php endforeach; ?>
                             </div>
                             <input type="hidden" name="size" id="size-<?php echo $product_id; ?>" required>
+                            <?php
+                                if (isset($errors['size'])) {
+                                    echo "<span class='errors text-danger'>{$errors['size']}</span>";
+                                }
+                            ?>
                         </div>
                         <div class="choose_size mt-4">
                             <p class="choose_size--text my-1">
@@ -148,25 +151,25 @@
             <div class="col-lg-1"></div>
         </div>
     </div>
-    <script src="./js/script.js"></script>
     <script>
-    // JavaScript to handle the click event on the thumbnails
-    document.addEventListener('DOMContentLoaded', function() {
-        const thumbnails = document.querySelectorAll('.image_thumbnail img');
-        const showImage = document.querySelector('.show_image');
-
-        thumbnails.forEach(thumbnail => {
-            thumbnail.addEventListener('click', function() {
-                // Remove active class from all thumbnails
-                thumbnails.forEach(thumb => thumb.classList.remove('active'));
-
-                // Add active class to the clicked thumbnail
-                thumbnail.classList.add('active');
-
-                // Set the clicked thumbnail image as the main image
-                showImage.innerHTML = `<img src="${thumbnail.src}" alt="main image">`;
+        // JavaScript to handle the click event on the thumbnails
+        document.addEventListener('DOMContentLoaded', function() {
+            const thumbnails = document.querySelectorAll('.image_thumbnail img');
+            const showImage = document.querySelector('.show_image');
+            
+            thumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    // Remove active class from all thumbnails
+                    thumbnails.forEach(thumb => thumb.classList.remove('active'));
+                    
+                    // Add active class to the clicked thumbnail
+                    thumbnail.classList.add('active');
+                    
+                    // Set the clicked thumbnail image as the main image
+                    showImage.innerHTML = `<img src="${thumbnail.src}" alt="main image">`;
+                });
             });
         });
-    });
-    </script>
+        </script>
+        <script src="./js/script.js"></script>
     <?php include "./includes/footer.php" ?>
