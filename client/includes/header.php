@@ -1,5 +1,5 @@
 <header>
-    <div class="header container d-flex justify-content-between align-items-center py-3">
+    <div class="header container d-flex justify-content-between align-items-center py-2">
         <div class="logo-image">
             <a href="index.html">
                 <img src="./image/logo.png" alt>
