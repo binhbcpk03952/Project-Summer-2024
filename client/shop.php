@@ -67,7 +67,7 @@
         </div>
     </div>
     <div class="container-fluid position_alert" id="box_cart"></div>
-
+    <div class="container-fluid position_alert" id="alerts-container"></div> <!-- Thêm container cho các alert -->
     <?php include "./includes/footer.php" ?>
 </body>
 </html>

@@ -110,8 +110,7 @@ foreach ($results as $row) {
 
 <script>
 function alertCart(content) {
-
-    let body = document.querySelector('body');
+    let container = document.getElementById('alerts-container');
     let alertHtml = `
         <div class="container-fluid position_alert" id="alertCart">
             <div class="bg-alert d-flex justify-content-center align-items-center w-100">
@@ -127,7 +126,7 @@ function alertCart(content) {
             </div>
         </div>
     `;
-    body.innerHTML += alertHtml;
+    container.innerHTML += alertHtml;
     setTimeout(() => {
         let alertElement = document.getElementById('alertCart');
         if (alertElement) {
@@ -135,6 +134,7 @@ function alertCart(content) {
         }
     }, 2000);
 }
+
 
 function selectColor(productId, color, event) {
     var colorGroup = document.getElementById('color-group-' + productId);
@@ -198,7 +198,7 @@ function submitForm(productId) {
     const color = document.getElementById('color-' + productId).value;
     const size = document.getElementById('selected-size-' + productId).value;
 
-    // Perform client-side validation
+    // Thực hiện validate phía client
     let valid = true;
     if (!color) {
         document.getElementById('color-error-' + productId).innerText = 'Đây là trường bắt buộc';
@@ -207,33 +207,27 @@ function submitForm(productId) {
         document.getElementById('color-error-' + productId).innerText = '';
     }
 
-    if (!size) {
-        document.getElementById('size-error-' + productId).innerText = 'Đây là trường bắt buộc';
-        valid = false;
-    } else {
-        document.getElementById('size-error-' + productId).innerText = '';
-    }
-
     if (valid) {
         $.ajax({
             url: 'process_form.php',
             method: 'POST',
             data: $(form).serialize(),
+            dataType: 'json',
             success: function(response) {
-                response = JSON.parse(response);
                 if (response.status === 'success') {
-                    alert('Product added to cart successfully');
-                    // Optionally, you can close the modal here
+                    console.log(response.message);
+                    alertCart(response.message);
+                    // Tuỳ chọn, bạn có thể đóng modal ở đây
                     $('#box_cart').hide();
-                } else {
-                    alert('Error: ' + response.message);
+                } else if (response.status === 'error') {
+                    alertCart('Lỗi: ' + response.message);
                 }
             },
             error: function(xhr, status, error) {
-                console.log('Error: ' + error);
+                console.log('Lỗi: ' + error);
             }
         });
     }
-    alertCart(message);
 }
+
 </script>
