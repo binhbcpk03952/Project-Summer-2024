@@ -1,3 +1,6 @@
+<?php
+    // session_start();
+?>
 <footer class="mt-3">
     <hr class="m-0">
     <div class="container">
@@ -101,9 +104,14 @@
 <script src="https://kit.fontawesome.com/121f50087c.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script>
-lucide.createIcons();
+    lucide.createIcons();
 </script>
-<!-- <script src="./js/main.js"></script> -->
+<?php
+    if (isset($_SESSION['id'])) {
+        echo "<script src='./js/main.js'></script>";
+    }
+?>
+<!--  -->
 <!-- <script src="../js/script.js"></script> -->
 </body>
 

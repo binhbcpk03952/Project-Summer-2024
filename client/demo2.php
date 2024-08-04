@@ -1,210 +1,109 @@
 <?php
-include "./DBUntil.php";
+include_once ("./DBUntil.php");
 $dbHelper = new DBUntil();
-$id = 3;
-$results = $dbHelper->select("SELECT p.idProduct, p.nameProduct, p.description, p.price, pcs.color
+    // $id = $_GET['id'];
+    $results = $dbHelper->select("SELECT p.idProduct, p.nameProduct, p.description, p.price, pcs.color, sz.nameSize
         FROM products p 
         JOIN product_size_color pcs ON p.idProduct = pcs.idProduct
-        -- JOIN sizes sz ON sz.idSize = pcs.idSize
-        WHERE p.idProduct = $id");
+        JOIN sizes sz ON sz.idSize = pcs.idSize
+        WHERE p.idProduct = 4");
 
-$images = $dbHelper->select("SELECT * FROM picproduct WHERE idProduct = ?", [$id]);
-$products = [];
+    $images = $dbHelper->select("SELECT * FROM picproduct WHERE idProduct = ?", [4]);
+    $products = [];
 
-if (isset($_GET['color'])) {
-    $color = $_GET['color'];
-    $sizeChange = $dbHelper->select("SELECT * FROM product_size_color WHERE idProduct = $id AND color = $color");
-
-    foreach ($sizeChange as $row) {
-        $size = [
-            'idSize' => $row['idSize'],
-            'variant' => [],
-        ];
-        $size['variant'][] = [
-            'size' => $row['nameSize'],
-        ];
-    }
-} 
-
-foreach ($results as $row) {
-    $product_id = $row['idProduct'];
-    if (!isset($products[$product_id])) {
-        $products[$product_id] = [
-            'nameProduct' => $row['nameProduct'],
-            'description' => $row['description'],
-            'price' => $row['price'],
-            'variants' => []
-        ];
-    }
-    $products[$product_id]['variants'][] = [
-        'color' => $row['color'],
-        // 'size' => $row['size']
-    ];
-}
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $product_id = $id;
-
-
-    if (!isset($_POST['color']) || empty($_POST['color'])) {
-        $errors['color'] = "Đây là trường bắt buộc";
-    } else {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $product_id = $id;
         $color = $_POST['color'];
-    }
-    if (!isset($_POST['size']) || empty($_POST['size'])) {
-        $errors['size'] = "Đây là trường bắt buộc";
-    } else {
         $size = $_POST['size'];
+        if (!isset($color) || empty($color)) {
+            $errors['color'] = "Đây là trường bắt buộc";
+        }
+    
+        echo $product_id. "<br>";
+        echo $color. "<br>";
+        echo $size. "<br>";
     }
-    echo $product_id . "<br>";
-    echo $color . "<br>";
-    echo $size . "<br>";
-}
 
+    foreach ($results as $row) {
+        $product_id = $row['idProduct'];
+        if (!isset($products[$product_id])) {
+            $products[$product_id] = [
+                'nameProduct' => $row['nameProduct'],
+                'description' => $row['description'],
+                'price' => $row['price'],
+                'variants' => []
+            ];
+        }
+        $products[$product_id]['variants'][] = [
+            'color' => $row['color'],
+            'size' => $row['nameSize']
+        ];
+    }
 ?>
 
-<?php include "./includes/head.php" ?>
-
-<body class="">
-    <?php include "./includes/header.php" ?>
-    <!-- banner -->
-    <div class="container mt-2">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html" class="nav-link">Trang chủ</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Sản
-                    phẩm</li>
-            </ol>
-        </nav>
-    </div>
-    
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-lg-1"></div>
-            <div class="col-md-5 me-2">
-                <div class="image_product">
-                    <div class="show_image">
-                        <!-- This div can be used to display the selected image or the main image -->
-                        <img src="../admin/products/image/<?php echo htmlspecialchars($images[0]['namePic']); ?>">
-                    </div>
-                    <div class="image_thumbnail d-flex mt-2">
-                        <?php foreach ($images as $image) : ?>
-                            <div class="thumbnails me-2">
-                                <img src="../admin/products/image/<?php echo htmlspecialchars($image['namePic']); ?>" alt="image" class="img-thumbnails">
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-5 ms-3">
-                <div class="product_content">
-                    <?php foreach ($products as $product_id => $product) : ?>
-                        <form action method="post">
-                            <h3 class="fw-bold fs-5 my-1"><?php echo $product['nameProduct']; ?></h3>
-                            <p class="product_id my-1">MÃ SP: 123ASGH</p>
-                            <p class="fw-bold mt-3 mb-4"><?php echo $product['price']; ?>đ</p>
-                            <div class="product_color">
-                                <label for class="d-block fs-6 mb-2 fw-bold">Màu sắc:</label>
-                                <div class="button-group" id="color-group-<?php echo $product_id; ?>">
-                                    <?php
-                                    $colors = array_unique(array_column($product['variants'], 'color'));
-                                    foreach ($colors as $color) : ?>
-                                        <button type="button" data-color="<?php echo $color; ?>" class="btn btn-color" style="background-color: <?php echo $color; ?>;" onclick="selectColor('<?php echo $product_id; ?>', '<?php echo $color; ?>', event)"></button>
-                                    <?php endforeach; ?>
-                                </div>
-                                <input type="hidden" name="color" id="color-<?php echo $product_id; ?>" required>
-                                <?php
-                                if (isset($errors['color'])) {
-                                    echo "<span class='errors text-danger'>{$errors['color']}</span>";
-                                }
-                                ?>
-                            </div>
-                            <?php endforeach; ?>
-                            <!-- size  -->
-                            <div class="product_size mt-3">
-                                <label for class="d-block fs-6 mb-2 fw-bold">Kích
-                                    thước:</label>
-                            <?php  global $sizeChange; 
-                                   foreach ($sizeChange as $row) { ?>
-                                <div class="button-group" id="size-group-<?php echo $row['idProduct']; ?>">
-                                    <?php
-                                   
-                                    $sizes = array_unique(array_column($sizeChange['variant'], 'color'));
-                                    foreach ($sizes as $size) : ?>
-                                        <button type="button" class="btn rouded-1" onclick="selectSize('<?php echo $row['idProduct']; ?>', '<?php echo $size; ?>', event)"><?php echo $size; ?></button>
-                                    <?php endforeach; ?>
-                                </div>
-                                <input type="hidden" name="size" id="size-<?php echo $product_id; ?>" required>
-                                <?php
-                                if (isset($errors['size'])) {
-                                    echo "<span class='errors text-danger'>{$errors['size']}</span>";
-                                }
-                                ?>
-                                <?php } ?>
-                            </div>
-                            <div class="choose_size mt-4">
-                                <p class="choose_size--text my-1">
-                                    <i class="fa-solid fa-table class color-main"></i>
-                                    Hướng dẫn chọn size
-                                </p>
-                            </div>
-                            <div class="image_freeship">
-                                <img src="https://owen.cdn.vccloud.vn/media/amasty/ampromobanners/CD06C467-DE0F-457E-9AB0-9D90B567E118.jpeg" alt class="w-100">
-                            </div>
-                            <button type="submit" class="btn btn-dark w-100 mt-5 fw-bold rounded-0">MUA HÀNG</button>
-                        
-                        </form>
-
-                        <div class="description mt-5">
-                            <span class="description_heading fw-bold">MÔ TẢ</span>
-                            <hr class="m-0">
-                            <p>Lorem ipsum dolor sit amet consectetur,
-                                adipisicing elit. Ea cumque maiores similique fu</p>
-                        </div>
-                </div>
-            </div>
-            <div class="col-lg-1"></div>
-        </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
-    <script>
-        // JavaScript to handle the click event on the thumbnails
-        document.addEventListener('DOMContentLoaded', function() {
-            const thumbnails = document.querySelectorAll('.image_thumbnail img');
-            const showImage = document.querySelector('.show_image');
-
-            thumbnails.forEach(thumbnail => {
-                thumbnail.addEventListener('click', function() {
-                    // Remove active class from all thumbnails
-                    thumbnails.forEach(thumb => thumb.classList.remove('active'));
-
-                    // Add active class to the clicked thumbnail
-                    thumbnail.classList.add('active');
-
-                    // Set the clicked thumbnail image as the main image
-                    showImage.innerHTML = `<img src="${thumbnail.src}" alt="main image">`;
-                });
-            });
-        });
-
-        $(document).ready(function() {
-            $('.btn-color').on('click', function() {
-                var color = $(this).data('color');
-                console.log(color);
-                $.ajax({
-                    url: 'demo2.php',
-                    method: 'GET',
-                    data: {
-                        color: color
-                    },
-                    success: function(response) {
-                        $('#box_cart').html(response).show(); // Chèn nội dung vào modal và hiển thị
-                    },
-                    error: function(xhr, status, error) {
-                        console.log('Error: ' + error);
-                    }
-                });
-            });
-        });
-    </script>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chọn màu sắc</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="./js/script.js"></script>
-    <?php include "./includes/footer.php" ?>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Princes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <?php
+        // Giả sử bạn có một danh sách sản phẩm $products
+        foreach ($products as $product):
+            $product_id = 4;
+    ?>
+    <div class="product">
+        <h2><?php echo $product['nameProduct']; ?></h2>
+        <div class="button-group" id="color-group-<?php echo $product_id; ?>">
+            <?php
+                // Lọc màu trùng lặp
+                $colors = array_unique(array_column($product['variants'], 'color'));
+                foreach ($colors as $color):
+            ?>
+            <button type="button" class="btn" style="background-color: <?php echo $color; ?>;"
+                onclick="selectColor('<?php echo $product_id; ?>', '<?php echo $color; ?>', event)"></button>
+            <?php endforeach; ?>
+        </div>
+        <input type="hidden" name="color" id="color-<?php echo $product_id; ?>" required>
+        <div id="sizes-<?php echo $product_id; ?>"></div> <!-- Thêm phần tử để hiển thị kích thước -->
+    </div>
+    <?php endforeach; ?>
+
+    <script>
+        function selectColor(productId, color, event) {
+            // Đặt giá trị của input ẩn thành màu đã chọn
+            document.getElementById('color-' + productId).value = color;
+
+            // Gửi yêu cầu AJAX đến process_color.php để lấy kích thước
+            $.ajax({
+                url: 'demo.php',
+                method: 'GET',
+                data: {
+                    color: color
+                },
+                success: function(response) {
+                    // Hiển thị kết quả trong phần tử kích thước tương ứng
+                    document.getElementById('sizes-' + productId).innerHTML = response;
+                },
+                error: function(xhr, status, error) {
+                    console.log('Error: ' + error);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

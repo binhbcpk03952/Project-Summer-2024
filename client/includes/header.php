@@ -1,7 +1,14 @@
+<?php
+include_once ("./DBUntil.php");
+$dbHelper = new DBUntil();
+session_start();
+
+
+?>
 <header>
     <div class="header container d-flex justify-content-between align-items-center py-3">
         <div class="logo-image">
-            <a href="index.html">
+            <a href="index.php">
                 <img src="./image/logo.png" alt>
             </a>
         </div>
@@ -41,7 +48,9 @@
                     </a>
                 </li>
                 <li class="nav-link mx-2">
-                    <?php if (!isset($_SESSION['id'])) { echo ' 
+                    <?php if (!isset($_SESSION['id'])) { 
+                        
+                        echo ' 
                             <a href="login.php">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"
@@ -50,15 +59,23 @@
                                     <path d="M20 21a8 8 0 0 0-16 0" />
                                 </svg>
                             </a>
-                        '; }  else { echo '
+                        '; }  else { 
+                                $idUser = $_SESSION['id'];
+                                $users = $dbHelper->select("SELECT * FROM users WHERE idUser = $idUser");
+                                $image = $users[0]['image'];
+                            
+                             if(empty($image)){
+                                    $image = "avt.png";
+                                }
+                            echo '
 
                         <div class="dropdown">
                             <button class="btn-dropdown p-0" onclick="showDropdown()">
-                                <img src="./image/users.webp" alt>
+                                <img style="width: 42px; height: 42px;" src="../admin/users/image/'.$image.'" alt>
                             </button>
                             <ul class="dropdown-menu mt-1">
                                 <li>
-                                    <a class="dropdown-item" href="./accountInformation.html">
+                                    <a class="dropdown-item" href="./accountInformation.php?id='.$idUser.'">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round"
