@@ -1,7 +1,7 @@
 <?php
 include_once ("./DBUntil.php");
 $dbHelper = new DBUntil();
-session_start();
+// session_start();
 
 
 ?>
@@ -71,7 +71,7 @@ session_start();
 
                         <div class="dropdown">
                             <button class="btn-dropdown p-0" onclick="showDropdown()">
-                                <img style="width: 42px; height: 42px;" src="../admin/users/image/'.$image.'" alt>
+                                <img style="width: 35px; height: 35px;" src="../admin/users/image/'.$image.'" alt>
                             </button>
                             <ul class="dropdown-menu mt-1">
                                 <li>

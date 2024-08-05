@@ -5,16 +5,20 @@
     }
     include "./DBUntil.php";
     $dbHelper = new DBUntil();
+    $checkCart = $dbHelper->select("SELECT * FROM users us  
+                                            JOIN carts ca ON ca.idUser = us.idUser
+                                            WHERE ca.idUser = ?", [$_SESSION['id']]);
+    $idCart = $checkCart[0]['idCart'];
 
-    $carts = $dbHelper->select("SELECT *, MIN(pic.namePic) AS namePic 
+    $carts = $dbHelper->select("SELECT dca.*, MIN(pic.namePic) AS namePic, pr.*, psc.*, us.*
                                 FROM carts ca 
-                                INNER JOIN detailcart dca ON ca.idCart = dca.idCart
+                                JOIN detailcart dca ON ca.idCart = dca.idCart
                                 INNER JOIN products pr ON pr.idProduct = dca.idProduct
                                 JOIN picProduct pic ON pic.idProduct = pr.idProduct
                                 JOIN product_size_color psc ON psc.idProduct = pr.idProduct
                                 INNER JOIN users us ON us.idUser = ca.idUser
-                                WHERE us.idUser = $idUser
-                                GROUP BY ca.idCart");
+                                WHERE us.idUser = ? AND dca.idCart = ?
+                                GROUP BY dca.idDetailCart", [$idUser, $idCart]);
     function getTotal()
     {
         global $carts;
@@ -25,7 +29,7 @@
         return $sum;
     }
     // echo getTotal();
-    // var_dump($carts);
+    var_dump($carts);
     // echo count($carts);
 ?>
 <!DOCTYPE html>
