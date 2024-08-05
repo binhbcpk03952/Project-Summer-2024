@@ -12,7 +12,7 @@ if (isset($_GET['quantity']) && isset($_GET['productId']) && isset($_GET['idCart
     $productId = $_GET['productId'];
     $idCart = $_GET['idCart'];
 
-    $updateQuantity = $dbHelper->update("detailcart", ["quantityCart" => $quantity], "idCart = $idCart");
+    $updateQuantity = $dbHelper->update("detailcart", ["quantityCart" => $quantity], "idDetailCart = $idCart");
 
     $product = $dbHelper->select("SELECT * FROM products WHERE idProduct = ?", [$productId]);
 

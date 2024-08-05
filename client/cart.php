@@ -10,7 +10,7 @@
                                             WHERE ca.idUser = ?", [$_SESSION['id']]);
     $idCart = $checkCart[0]['idCart'];
 
-    $carts = $dbHelper->select("SELECT dca.*, MIN(pic.namePic) AS namePic, pr.*, psc.*, us.*
+    $carts = $dbHelper->select("SELECT dca.*, MIN(pic.namePic) AS namePic, pr.*, psc.*, us.*, dca.color
                                 FROM carts ca 
                                 JOIN detailcart dca ON ca.idCart = dca.idCart
                                 INNER JOIN products pr ON pr.idProduct = dca.idProduct
@@ -29,7 +29,7 @@
         return $sum;
     }
     // echo getTotal();
-    var_dump($carts);
+    // var_dump($carts);
     // echo count($carts);
 ?>
 <!DOCTYPE html>
@@ -88,11 +88,11 @@
                                 <td>
                                     <div class="quantity">
                                         <button class="prev" 
-                                            onclick="updateQuantity(this, -1, <?php echo $cart['idProduct'] ?>, <?php echo $cart['quantityProduct'] ?>,<?php echo $cart['idCart'] ?>)">-</button>
+                                            onclick="updateQuantity(this, -1, <?php echo $cart['idProduct'] ?>, <?php echo $cart['quantityProduct'] ?>,<?php echo $cart['idDetailCart'] ?>)">-</button>
                                         <input type="text" class="quantity-cart" name="quantity-cart"
                                             value="<?php echo $cart['quantityCart'] ?>">
                                         <button class="pluss" 
-                                            onclick="updateQuantity(this, 1, <?php echo $cart['idProduct'] ?>, <?php echo $cart['quantityProduct'] ?>, <?php echo $cart['idCart'] ?>)">+</button>
+                                            onclick="updateQuantity(this, 1, <?php echo $cart['idProduct'] ?>, <?php echo $cart['quantityProduct'] ?>, <?php echo $cart['idDetailCart'] ?>)">+</button>
                                     </div>
                                 </td>
                                 <td>
@@ -102,7 +102,7 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <span class="total-price" id="totalPrice-<?php echo $cart['idCart'] ?>">
+                                    <span class="total-price" id="totalPrice-<?php echo $cart['idDetailCart'] ?>">
                                         <?php echo $cart['price'] * $cart['quantityCart'] ?>
                                     </span>
                                     <span class="fw-bold fs-7 text-decoration-underline">đ</span>
