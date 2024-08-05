@@ -14,7 +14,8 @@ $results = $dbHelper->select("SELECT p.idProduct, p.nameProduct, p.description, 
                               FROM products p 
                               JOIN product_size_color pcs ON p.idProduct = pcs.idProduct
                               JOIN sizes sz ON sz.idSize = pcs.idSize
-                              WHERE p.idProduct = ?", [$id]);
+                              WHERE p.idProduct = ?
+                              ORDER BY pcs.idSize ASC", [$id]);
 
 // Fetch product images
 $images = $dbHelper->select("SELECT * FROM picproduct WHERE idProduct = ?", [$id]);
@@ -76,7 +77,9 @@ foreach ($results as $row) {
                             </div>
                             <div class="product_size mt-3">
                                 <label for="" class="d-block fs-6 mb-2 fw-bold">Kích thước:</label>
-                                <div class="button-group" id="size-group-<?php echo $product_id; ?>"></div>
+                                <div class="button-group" id="size-group-<?php echo $product_id; ?>">
+
+                                </div>
                                 <input type="hidden" name="size" id="selected-size-<?php echo $product_id; ?>" value="">
                                 <span class='errors text-danger' id="size-error-<?php echo $product_id; ?>"></span>
                             </div>
@@ -219,8 +222,11 @@ function submitForm(productId) {
                     alertCart(response.message);
                     // Tuỳ chọn, bạn có thể đóng modal ở đây
                     $('#box_cart').hide();
-                } else if (response.status === 'error') {
-                    alertCart('Lỗi: ' + response.message);
+                } else if (response.status === 'errors') {
+                    alert('Lỗi: ' + response.message);
+                    location.href = "login.php"
+                } else {
+                    alert('Lỗi: ' + response.message);
                 }
             },
             error: function(xhr, status, error) {

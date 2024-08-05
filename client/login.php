@@ -6,6 +6,14 @@
     $errors = [];
     $email = "";
     $password = "";
+    if (isset($_SERVER['HTTP_REFERER'])) {
+        $previous_url = $_SERVER['HTTP_REFERER'];
+        echo "Previous page URL: " . $previous_url;
+    } else {
+        echo "No referrer URL detected.";
+    }
+
+   
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (!isset($_POST['email']) || empty($_POST['email'])) {
@@ -32,8 +40,13 @@
                         // Redirect user after successful login
                         $_SESSION['id'] = $query['idUser'];
                         // echo $_SESSION['id'];
-                        header('Location: index.php');
-                        exit();
+                        if ($previous_url = "http://localhost/project-summer-2024/client/shop.php") {
+                            header('Location: http://localhost/project-summer-2024/client/shop.php');
+                        }
+                        else {
+                            header('Location: index.php');
+                            exit();
+                        }
 
                     } else {
                         $errors['login'] = "Sai Tên đăng nhập hoặc Mật khẩu.";

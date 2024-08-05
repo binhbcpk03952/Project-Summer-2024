@@ -14,7 +14,8 @@
                 FROM products p 
                 JOIN product_size_color pcs ON p.idProduct = pcs.idProduct
                 JOIN sizes sz ON sz.idSize = pcs.idSize
-                WHERE pcs.color = :color AND p.idProduct = :productId";
+                WHERE pcs.color = :color AND p.idProduct = :productId
+                ORDER BY pcs.idSize ASC";
 
         $params = [
             'color' => $selectedColor,

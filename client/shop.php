@@ -2,6 +2,7 @@
     session_start();
     include "./DBUntil.php";
     $dbHelper = new DBUntil();
+    echo $_SESSION['id'];
 
     $products = $dbHelper->select("SELECT p.*, MIN(pic.namePic) AS namePic 
     FROM products p

@@ -1,19 +1,59 @@
-function updateQuantity(element, num) {
+function updateQuantity(element, num, productId, quantityProduct, idCart) {
     const quantityInput = element.parentElement.querySelector('.quantity-cart');
-    let quantity = parseInt(quantityInput.value); 
+    let quantity = parseInt(quantityInput.value);
 
     if (isNaN(quantity)) {
-        quantity = 1; 
+        quantity = 1;
     }
-
     quantity += num;
 
     if (quantity < 1) {
-        quantity = 1; 
+        quantity = 1;
+    } else if (quantity > quantityProduct) {
+        quantity = quantityProduct;
     }
-
     quantityInput.value = quantity;
+
+    $.ajax({
+        url: '../../../project-summer-2024/client/carts/updateQuantity.php',
+        method: 'GET',
+        dataType: 'json',
+        data: {
+            quantity: quantity,
+            productId: productId,
+            idCart: idCart,
+        },
+        success: function(response) {
+            try {
+                const data = response;
+                if (data.status === 'success') {
+                    console.log('Quantity:', quantity);
+                    console.log('Response:', response);
+
+                    // Cập nhật giá sản phẩm
+                    const priceElement = document.querySelector(`#totalPrice-${idCart}`);
+                    if (priceElement) {
+                        priceElement.innerText = data.newPrice; // Giả sử dữ liệu phản hồi có newPrice
+                    }
+                    const totalPrice = document.querySelector(`#total_price`);
+                    if (totalPrice) {
+                        totalPrice.innerText = data.newTotal; // Giả sử dữ liệu phản hồi có newPrice
+                    }
+                } else {
+                    console.log('Error:', data.message);
+                }
+            } catch (e) {
+                console.error('Error parsing JSON:', e);
+                console.error('Response:', response);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log('Error: ' + error);
+        }
+    });
 }
+
+
 
 function changePassword() {
     const change = document.querySelector('.load-change');

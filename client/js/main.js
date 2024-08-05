@@ -29,11 +29,3 @@ document.body.addEventListener('click', (e) => {
 //     showDropdown();
 // });
 
-function updateQuantity(num) {
-    const quantityCart = document.querySelector('#quantity-cart') 
-
-    if (quantityCart.value < 1) {
-        quantityCart.value = 1;
-    }
-    quantityCart.value += num;
-}
