@@ -3,6 +3,7 @@
     $dbHelper = new DBUntil();
 
     session_start();
+
     $errors = [];
     $email = "";
     $password = "";
@@ -39,6 +40,7 @@
                         ($query['username'] == $email && $query['password'] == $password)) {
                         // Redirect user after successful login
                         $_SESSION['id'] = $query['idUser'];
+                        $_SESSION['success'] = true;
                         // echo $_SESSION['id'];
                         if ($previous_url = "http://localhost/project-summer-2024/client/shop.php") {
                             header('Location: http://localhost/project-summer-2024/client/shop.php');

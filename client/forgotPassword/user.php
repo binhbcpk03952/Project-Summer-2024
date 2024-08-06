@@ -1,7 +1,7 @@
 <?php
 session_start();
 ini_set('display_errors', '1');
-require('../DBUntil.php');
+include_once("../DBUntil.php");
 
 
 use MailService\MailService as MailService;
@@ -65,15 +65,23 @@ function resetPassword()
         $password = $_POST['password'];
         $passConfirm = $_POST['passConfirm-forgot'];
         // Check if the passwords match
+        if(strlen($password) < 6){
+            $errors['password'] = "Password phải lớn hơn 6 kí tự.";
+        }
+        if(strlen($passConfirm) < 6){
+            $errors['passConfirm-forgot'] = "Xác nhận mật khẩu phải lớn hơn 6 kí tự.";
+        }
         if ($passConfirm !== $password) {
             $errors['passConfirm-forgot'] = "Xác nhận mật khẩu không đúng";
             return;
         }
+        if (!isset($errors) || count($errors) == 0) {
         $isCheck = $dbHelper->select("SELECT * FROM users WHERE email = :email AND otp = :otp AND otpCreated >= :current", [
             'email' => $email,
             'otp' => $otp,
             'current' => date('Y-m-d H:i:s')
         ]);
+    
         if ($isCheck && count($isCheck) > 0) {
                // Perform password reset logic here
                $isReset = $dbHelper->update('users', array('password'=>$password), "email = '$email'");
@@ -82,6 +90,7 @@ function resetPassword()
                  $errors['otp'] = "Email or OTP is incorrect or expired.";
                 }
         }
+    }
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     $action = $_POST['action'];

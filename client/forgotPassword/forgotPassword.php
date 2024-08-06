@@ -1,10 +1,20 @@
 <?php
 require_once('./user.php');
+$email = '';
 $errors =[];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if (!isset($_POST['email']) || empty($_POST['email'])) {
     $errors['email'] = "Email là bắt buộc";
-} 
+} else{
+    $email = $_POST['email'];
+}
+if(count($errors) == 0){
+    $isCheck = $dbHelper->select("SELECT * FROM users WHERE email = ?", [$email]);
+
+if(!$isCheck || count($isCheck) == 0){
+    $errors['email'] = "Email không tồn tại";
+}
+}
 }
 ?>
 <!DOCTYPE html>

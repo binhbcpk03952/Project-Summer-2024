@@ -1,5 +1,6 @@
 <?php
     include_once ("./DBUntil.php");
+    session_start();
     $dbHelper = new DBUntil();
     function isVietnamesePhoneNumber($number){
         return preg_match('/^(03|05|07|08|09|01[2689])[0-9]{8}$/', $number) === 1;
@@ -97,13 +98,18 @@
 
         if ($isCreate) {
             // Redirect to the same page to see the new record in the table
+            $_SESSION['success'] = true;
             header("Location: " . $_SERVER['PHP_SELF']);
-            echo "<script> alert('Đăng ký tài khoản thành công!');</script>";
-            exit();
         } else {
             $errors['database'] = "Failed to create new user";
         }
     }
+}
+$login_success = false;
+
+if (isset($_SESSION['success']) && $_SESSION['success'] === true) {
+    $login_success = true;
+    unset($_SESSION['success']); // Unset the session variable to avoid repeated alerts
 }
 ?>
 
@@ -127,6 +133,7 @@
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
         <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="js/script.js">
     </head>
     <body>
         <header>
@@ -221,6 +228,39 @@
                 </div>
             </div>
         </header>
+        <div id="alerts-container"></div> <!-- Container cho thông báo -->
+
+<script>
+function alertSuccessfully(content) {
+    let container = document.getElementById('alerts-container');
+    let alertHtml = `
+        <div class="container-fluid position_alert" id="alertSuccessfully">
+            <div class="bg-alert d-flex justify-content-center align-items-center w-100">
+                <div class="content_alert alert_cart">
+                    <div class="icon-warning d-flex justify-content-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-circle-check-big icon_cart mt-3"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 
+                            11 3 3L22 4"/></svg>
+                    </div>
+                    <h3 class="text-center fs-6 mt-3">${content} Thành công!</h3>
+                </div>
+            </div>
+        </div>
+    `;
+    container.innerHTML += alertHtml;
+    setTimeout(() => {
+        let alertElement = document.getElementById('alertSuccessfully');
+        if (alertElement) {
+            alertElement.remove();
+        }
+    }, 2000);
+}
+
+<?php if ($login_success): ?>
+    alertSuccessfully("Đăng Kí Thành Công!");
+<?php endif; ?>
+</script>
         <main>
             <div class="container">
                 <nav aria-label="breadcrumb">
@@ -232,7 +272,7 @@
                     </ol>
                 </nav>
             </div>
-
+            <div id="alerts-container"></div>
             <div class="container form">
                 <div class="row">
                     <div class="col-md-6">
@@ -316,7 +356,7 @@
                                         }
                                     ?>
                                 </div>
-                                <button class="btn btn-dark w-100 btn-submit mt-4">ĐĂNG KÍ</button>
+                                <button class="btn btn-dark w-100 btn-submit mt-4" onclick="alertSuccessfully('ĐĂNG KÍ')">ĐĂNG KÍ</button>
                             </form>
                             <div class="text-end mt-1">
                                 <p>Bạn đã có tài khoản? <a href="login.php  " class="text-decoration-none">Đăng nhập</a></p>
@@ -333,6 +373,7 @@
                 </div>
             </div>
         </main>
+        
         <footer class="mt-3">
             <hr class="m-0">
             <div class="container">
