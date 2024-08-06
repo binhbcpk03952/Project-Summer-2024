@@ -42,13 +42,13 @@
                         $_SESSION['id'] = $query['idUser'];
                         $_SESSION['success'] = true;
                         // echo $_SESSION['id'];
-                        if ($previous_url = "http://localhost/project-summer-2024/client/shop.php") {
-                            header('Location: http://localhost/project-summer-2024/client/shop.php');
-                        }
-                        else {
+                        // if ($previous_url == $previous_url) {
+                        //     header("Location: $previous_url");
+                        // }
+                        // else {
                             header('Location: index.php');
-                            exit();
-                        }
+                        //     exit();
+                        // }
 
                     } else {
                         $errors['login'] = "Sai Tên đăng nhập hoặc Mật khẩu.";

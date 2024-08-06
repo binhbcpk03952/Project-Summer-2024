@@ -1,6 +1,11 @@
 <?php
-// session_start();
-// echo ($_SESSION['id']);
+session_start();
+$login_success = false;
+
+if (isset($_SESSION['success']) && $_SESSION['success'] === true) {
+    $login_success = true;
+    unset($_SESSION['success']); // Unset the session variable to avoid repeated alerts
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,6 +28,39 @@
 </head>
 
 <body>
+<div id="alerts-container"></div> <!-- Container cho thông báo -->
+
+<script>
+function alertSuccessfully(content) {
+    let container = document.getElementById('alerts-container');
+    let alertHtml = `
+        <div class="container-fluid position_alert" id="alertSuccessfully">
+            <div class="bg-alert d-flex justify-content-center align-items-center w-100">
+                <div class="content_alert alert_cart">
+                    <div class="icon-warning d-flex justify-content-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-circle-check-big icon_cart mt-3"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 
+                            11 3 3L22 4"/></svg>
+                    </div>
+                    <h3 class="text-center fs-6 mt-3">${content} Thành công!</h3>
+                </div>
+            </div>
+        </div>
+    `;
+    container.innerHTML += alertHtml;
+    setTimeout(() => {
+        let alertElement = document.getElementById('alertSuccessfully');
+        if (alertElement) {
+            alertElement.remove();
+        }
+    }, 2000);
+}
+
+<?php if ($login_success): ?>
+    alertSuccessfully("Đăng nhập Thành Công!");
+<?php endif; ?>
+</script>
    <?php include "./includes/header.php" ?>
     <main>
         <div class="container mt-3">
