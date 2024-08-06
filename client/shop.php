@@ -1,5 +1,5 @@
 <?php
-    // session_start();
+    session_start();
     include "./DBUntil.php";
     $dbHelper = new DBUntil();
     // echo $_SESSION['id'];

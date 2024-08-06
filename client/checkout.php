@@ -56,8 +56,53 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (count($errors) === 0) {
         echo "validate thanh cong";
         // chuaan bi du lieu de them du lieu vao database
+        $currentDateTime = getdate();
+        $mysqlDateTime = date("Y-m-d H:i:s", mktime(
+            $currentDateTime['hours'] + 5,
+            $currentDateTime['minutes'],
+            $currentDateTime['seconds'],
+            $currentDateTime['mon'],
+            $currentDateTime['mday'],
+            $currentDateTime['year']
+        ));
+        echo $mysqlDateTime;
 
-        $isCart = $dbHelper->select("SELECT * FROM carts WHERE idUser = ?", [$_SESSION['id']]);
+        $isIdCart = $dbHelper->select("SELECT * FROM carts WHERE idUser = ?", [$_SESSION['id']]);
+        $checkCarts = $isIdCart[0]['idCart'];
+        $detailCart = $dbHelper->select("SELECT * FROM detailcart WHERE idCart = ?", [$checkCarts]);
+        // var_dump($detailCart);
+        $formatted_address = $address[0]['nameStreet'] . ', ' . $address[0]['nameAddress'];
+        $dataInsertOrder = [
+            "orderDate" => $mysqlDateTime,
+            "statusOrder" => 1,
+            "address" => $formatted_address,
+            "noteOrder" => $noteOrder,
+            "totalPrice" => getTotal() + 30000,
+            "idUser" => $_SESSION['id'],
+        ];
+
+        $insertOrder = $dbHelper->insert("orders", $dataInsertOrder);
+        $idOrder = $dbHelper->lastInsertId();
+        // echo '<pre>';
+        // var_dump($dataInsertOrder);
+        // echo '</pre>';
+        foreach ($detailCart as $row) {
+            $data = [
+                "quantityOrder" => $row['quantityCart'],
+                "size" => $row['size'],
+                "color" => $row['color'],
+                "idProduct" => $row['idProduct'],
+                "idOrder" => $idOrder,
+            ];
+            $insertDetailOrder = $dbHelper->insert("detailorder", $data);
+        }
+
+        if ($insertOrder && $insertDetailOrder) {
+            echo '<script>alert("mua hang thanh cong!")</script>';
+
+            $removeCart = $dbHelper->delete("detailcart", "idCart = $checkCarts");
+            header("Location: shop.php");
+        }
     }
 }
 
@@ -65,7 +110,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!DOCTYPE html>
 <html lang="en">
 <?php include "./includes/head.php" ?>
-
 <body>
     <?php include "./includes/header.php" ?>
     <!-- banner -->
@@ -134,11 +178,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <p class="fw-bold mb-2">3. Phương thức thanh toán</p>
                                 <div class="payment-method px-2">
                                     <div class="pay">
-                                        <input type="radio" name="payment_method" id="" value="0">
+                                        <input type="radio" name="payment_method" id="" value="1">
                                         <label for="" class="fs-6 mx-2">Thanh toán khi nhận hàng</label>
                                     </div>
                                     <div class="vnPay mt-1">
-                                        <input type="radio" name="payment_method" id="" value="1">
+                                        <input type="radio" name="payment_method" id="" value="2">
                                         <label for="" class="fs-6 mx-2">Thanh toán VNPAY</label>
                                     </div>
                                     <?php

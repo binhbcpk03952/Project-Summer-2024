@@ -138,9 +138,9 @@
                         <div class="to-checkout">
                             <form action="" method="post">
                                 <input type="hidden" name="totalPrice" id="">
-                                <button
+                                <a href="checkout.php"
                                     class="toCheck text-decoration-none text-center py-2 px-5 bg-dark text-white fw-bold">ĐẶT
-                                    HÀNG</button>
+                                    HÀNG</a>
                             </form>
                         </div>
 
