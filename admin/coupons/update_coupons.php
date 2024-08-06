@@ -1,7 +1,7 @@
 <?php
 include "../../client/DBUntil.php";
 $dbHelper = new DBUntil();
-
+session_start();
 $id = $_GET['id'];
 $coupons = $dbHelper->select("SELECT * FROM coupons WHERE idCoupon = ?", [$id])[0];
 // Function to check if email exists in the database for a different user
@@ -46,6 +46,8 @@ function ischeckCode($code, $id) {
             $errors['discount'] = "Giảm giá là bắt buộc";
         }else if ($_POST['discount'] < 0) {
             $errors['discount'] = "Giảm giá phải lớn hơn 0";
+        }else if ($_POST['discount'] > 100) {
+            $errors['discount'] = "Giảm giá phải không hơn 100";
         }
          else {
             $discount = $_POST['discount'];
@@ -71,6 +73,7 @@ function ischeckCode($code, $id) {
         ];
             $isUpdate = $dbHelper->update("coupons", $data, "idCoupon = $id");   
         if ($isUpdate) {
+            $_SESSION['success'] = true;
             header("Location: list.php");
             exit();
         } 

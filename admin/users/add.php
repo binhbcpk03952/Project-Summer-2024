@@ -1,5 +1,6 @@
 <?php
     include "../../client/DBUntil.php";
+    session_start();
     $dbHelper = new DBUntil();
     // $users = $dbHelper->select("SELECT * FROM users");
     function isVietnamesePhoneNumber($number){
@@ -125,8 +126,8 @@
 
         if ($isCreate) {
             // Redirect to the same page to see the new record in the table
+            $_SESSION['success'] = true;
             header("Location: list.php");
-            echo "<script>alert('Thêm tài khoản thành công!');</script>";
             exit();
         } else {
             $errors['database'] = "Failed to create new user";

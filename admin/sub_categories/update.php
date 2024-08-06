@@ -1,6 +1,8 @@
 <?php
-    include "../../client/DBUntil.php";
+    include "../../client/DBUntil.php"; 
+    session_start();
     $dbHelper = new DBUntil();
+
     $categories = $dbHelper->select('SELECT * FROM categories');
     $id = $_GET['id'];
     $catgory = $dbHelper->select("SELECT * FROM categories WHERE idCategories = $id")[0];
@@ -34,6 +36,7 @@
                 'idCategories' => $_POST['name_category']
             ];
             $lastInsertId = $dbHelper->insert('subcategories', $data);
+            $_SESSION['success'] = true;
             header('Location: list.php');
         }
     }

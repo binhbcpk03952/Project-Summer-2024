@@ -32,10 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $newPassword = $_POST['newPassword'];
         $updatePassword = $dbHelper->update('users', array('password'=>$newPassword), "idUser = '$user_id'");
             if ($updatePassword) {
+                $_SESSION['success'] = true;
                 header('Location: ./accountInformation.php?id=' . $user_id);
             }
     }
 }
+
 ?>
 <?php include "./includes/head.php" ?>
 

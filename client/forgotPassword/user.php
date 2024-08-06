@@ -85,6 +85,7 @@ function resetPassword()
         if ($isCheck && count($isCheck) > 0) {
                // Perform password reset logic here
                $isReset = $dbHelper->update('users', array('password'=>$password), "email = '$email'");
+               $_SESSION['success'] = true;
                header('Location: http://localhost/project-summer-2024/client/login.php');
             }  else {
                  $errors['otp'] = "Email or OTP is incorrect or expired.";
