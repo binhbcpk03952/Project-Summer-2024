@@ -5,10 +5,7 @@ $dbHelper = new DBUntil();
 
 $idUser = $_SESSION['id'];
 
-/**
- * Lấy id người dùng 
- * từ id người dùng lấy id sản phẩm người dùng đã mua 
- */
+// Fetch order IDs for the user
 $idOrders = $dbHelper->select("SELECT idOrder FROM orders WHERE idUser = ?", [$idUser]);
 
 // Initialize an array to store product IDs
@@ -22,9 +19,14 @@ foreach ($idOrders as $order) {
 }
 
 // Fetch product details
+$products = [];
 foreach ($idProducts as $productId) {
-    $product = $dbHelper->select("SELECT * FROM products WHERE idProduct = ?", [$productId]);
-    echo $product[0]['idProduct'] . " ";
-    echo $product[0]['nameProduct'] . "<br>";
+    $product = $dbHelper->select("SELECT nameProduct FROM products WHERE idProduct = ?", [$productId]);
+    if (!empty($product)) {
+        $products[] = $product[0]['nameProduct'];
+    }
 }
+
+// Return the product names as JSON
+echo json_encode($products);
 ?>

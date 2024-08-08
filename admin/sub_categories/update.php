@@ -33,7 +33,7 @@
                 'nameSubCategory' => $_POST['name_categories'],
                 'idCategories' => $_POST['name_category']
             ];
-            $lastInsertId = $dbHelper->insert('subcategories', $data);
+            $lastInsertId = $dbHelper->update('subcategories', $data, "idSubCategory = $id");
             header('Location: list.php');
         }
     }
@@ -60,7 +60,7 @@
                                 <div class="name-category">
                                     <label for="">Tên danh mục con</label>
                                     <input type="text" name="name_categories"
-                                        id="name_category" class="form-control">
+                                        id="name_category" class="form-control" value="<?php echo $catgory['nameCategories']?>">
                                         <?php
                                             if(isset($errors['name_categories'])) {
                                                 echo "<span class='text-danger'>$errors[name_categories] </span>";
