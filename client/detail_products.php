@@ -4,7 +4,7 @@ include "./DBUntil.php";
 $dbHelper = new DBUntil();
 function formatCurrencyVND($number) {
     // Sử dụng number_format để định dạng số tiền mà không có phần thập phân
-    return number_format($number, 0, ',', '.') . 'đ';
+    return number_format($number, 0, ',', '.') . ' đ';
 }        
 
 // Validate and sanitize input
@@ -82,7 +82,7 @@ foreach ($results as $row) {
                             <input type="hidden" name="product_id" id="product_id" value="<?php echo $product_id; ?>">
                             <h3 class="fw-bold fs-5 my-1"><?php echo htmlspecialchars($product['nameProduct']); ?></h3>
                             <p class="product_id my-1">MÃ SP: 123ASGH</p>
-                            <p class="fw-bold mt-3 mb-4"><?php echo htmlspecialchars($product['price']); ?></p>
+                            <p class="fw-bold mt-3 mb-4"><?php echo formatCurrencyVND(htmlspecialchars($product['price'])) ?></p>
                             <div class="product_color">
                                 <label for="" class="d-block fs-6 mb-2 fw-bold">Màu sắc:</label>
                                 <div class="button-group" id="color-group-<?php echo $product_id; ?>">
