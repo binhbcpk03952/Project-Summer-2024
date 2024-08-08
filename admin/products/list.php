@@ -11,7 +11,11 @@
                                        FROM products PR
                                        INNER JOIN product_size_color SC ON PR.idProduct = SC.idProduct
                                        GROUP BY PR.idProduct");
-    // var_dump($listProducts);                                 
+    // var_dump($listProducts);          
+    function formatCurrencyVND($number) {
+        // Sử dụng number_format để định dạng số tiền mà không có phần thập phân
+        return number_format($number, 0, ',', '.') . 'đ';
+    }                       
 ?>
 
 
@@ -91,7 +95,7 @@
                         <tr class="align-middle">
                             <td><img src="./image/<?php echo $product['namePic']?>" alt="" class="image_list"></td>
                             <td><?php echo $product['nameProduct']?></td>
-                            <td><?php echo $product['price']?></td>
+                            <td><?php echo formatCurrencyVND($product['price'])?></td>
                             <td><?php echo $product['total_quantity']?></td>
                             <td><?php echo $product['description']?></td>
                             <td class="action_dad">

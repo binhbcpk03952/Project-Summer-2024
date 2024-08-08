@@ -11,7 +11,8 @@ $listProducts = $dbHelper->select("SELECT PR.*, SC.*, sz.*,
                                     FROM products PR
                                     INNER JOIN product_size_color SC ON PR.idProduct = SC.idProduct
                                     INNER JOIN sizes sz ON sz.idSize = SC.idSize
-                                    WHERE PR.idProduct = ?", [$idProduct]);
+                                    WHERE PR.idProduct = ?
+                                    ORDER BY SC.idSizeColor desc", [$idProduct]);
 // var_dump($listProducts);                                 
 ?>
 
@@ -44,7 +45,14 @@ $listProducts = $dbHelper->select("SELECT PR.*, SC.*, sz.*,
     }
 
     .action_dad {
-        width: 100px;
+        /* width: 100px; */
+    }
+
+    .list_color {
+        width: 40px;
+        height: 40px;
+        border: #ccc 2px solid;
+        border-radius: 3px;
     }
 
     /* .action .position-relative:hover .dropdown-menus { */
@@ -60,7 +68,7 @@ $listProducts = $dbHelper->select("SELECT PR.*, SC.*, sz.*,
 
             <!-- main  -->
             <main class="col-md-10 mt-5">
-                <h1 class="mt-4">Quản lí hình ảnh sản phẩm</h1>
+                <h1 class="mt-4">Quản lí kích thước sản phẩm</h1>
                 <div class="container-fluid mt-2">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -76,11 +84,11 @@ $listProducts = $dbHelper->select("SELECT PR.*, SC.*, sz.*,
                         </form>
                     </div>
                     <div class="add-category">
-                        <a href="./add.php" class="btn color-bg text-white px-4 mx-5">Thêm sản phẩm</a>
+                        <a href="./add_color_size.php?id=<?php echo $idProduct ?>" class="btn color-bg text-white px-3 mx-5">Thêm màu sắc, kích thước</a>
                     </div>
                 </div>
-                <h2><?php echo $listProducts[0]['nameProduct'] ?></h2>
-                <table class="table">
+                <h2 class="mt-2">Tên sản phẩm: <?php echo $listProducts[0]['nameProduct'] ?></h2>
+                <table class="table mt-4">
                     <thead>
                         <tr>
                             <th>Màu sắc</th>
@@ -92,24 +100,17 @@ $listProducts = $dbHelper->select("SELECT PR.*, SC.*, sz.*,
                     <tbody class="">
                         <?php foreach ($listProducts as $product) { ?>
                             <tr class="align-middle">
-                                <td><?php echo $product['color'] ?></td>
+                                <td>
+                                    <div class="list_color" style="background-color: <?php echo $product['color'] ?>;"></div>
+                                </td>
                                 <td><?php echo $product['nameSize'] ?></td>
                                 <td><?php echo $product['quantityProduct'] ?></td>
                                 <td class="action_dad">
                                     <div class="action d-flex">
                                         <a href="remove.php?id=<?php echo $product['idProduct'] ?>" class="remove_product
-                                    fw-bold text-danger text-decoration-none me-2" onclick="alertRemove(event, 'người dùng')">Xóa</a>
-                                        <div class="position-relative">
-                                            <a href="#" class="update_product 
-                                            text-decoration-none fw-bold mx-2" onclick="showChange(event, this)">
-                                                <i class="fa-solid fa-ellipsis-vertical"></i>
-                                            </a>
-                                            <ul class="dropdown-menus position-absolute top-3 end-0 px-3 py-1" id="dropdown-menu">
-                                                <li><a class="dropdown-item" href="update.php?id=<?php echo $product['idProduct'] ?>">Cập nhật thông tin</a></li>
-                                                <li><a class="dropdown-item" href="update_color?id=<?php echo $product['idProduct'] ?>">Danh sách màu sắc</a></li>
-                                                <li><a class="dropdown-item" href="update_image?id=<?php echo $product['idProduct'] ?>">Danh sách hình ảnh</a></li>
-                                            </ul>
-                                        </div>
+                                            fw-bold text-primary text-decoration-none me-2">Cập nhật</a>
+                                        <a href="./remove_file/remove_color.php?id=<?php echo $product['idSizeColor'] ?>&idPrd=<?php echo $product['idProduct'] ?>" class="remove_product
+                                            fw-bold text-danger text-decoration-none me-2" onclick="alertRemove(event, 'kích thước, màu sắc')">Xóa</a>
                                     </div>
                                 </td>
                             </tr>

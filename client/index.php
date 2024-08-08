@@ -1,62 +1,22 @@
 <?php
 session_start();
+$login_success = false;
 // echo ($_SESSION['id']);
+if (isset($_SESSION['success'])) {
+    $login_success = true;
+}
+unset($_SESSION['success'])
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Princes</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-</head>
+<?php include "./includes/head.php" ?>
 
 <body>
-<div id="alerts-container"></div> <!-- Container cho thông báo -->
+    <div id="alerts-container"></div> <!-- Container cho thông báo -->
 
-<script>
-function alertSuccessfully(content) {
-    let container = document.getElementById('alerts-container');
-    let alertHtml = `
-        <div class="container-fluid position_alert" id="alertSuccessfully">
-            <div class="bg-alert d-flex justify-content-center align-items-center w-100">
-                <div class="content_alert alert_cart">
-                    <div class="icon-warning d-flex justify-content-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-circle-check-big icon_cart mt-3"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 
-                            11 3 3L22 4"/></svg>
-                    </div>
-                    <h3 class="text-center fs-6 mt-3">${content}</h3>
-                </div>
-            </div>
-        </div>
-    `;
-    container.innerHTML += alertHtml;
-    setTimeout(() => {
-        let alertElement = document.getElementById('alertSuccessfully');
-        if (alertElement) {
-            alertElement.remove();
-        }
-    }, 2000);
-}
 
-<?php if ($login_success): ?>
-    alertSuccessfully("Đăng nhập Thành Công!");
-<?php endif; ?>
-</script>
-   <?php include "./includes/header.php" ?>
+    <?php include "./includes/header.php" ?>
     <main>
         <div class="container mt-3">
             <div class="row">
@@ -229,6 +189,37 @@ function alertSuccessfully(content) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script src="./js/banner.js"></script>
+    <script>
+    function alertSuccessfully(content) {
+        let container = document.getElementById('alerts-container');
+        let alertHtml = `
+        <div class="container-fluid position_alert" id="alertSuccessfully">
+            <div class="bg-alert d-flex justify-content-center align-items-center w-100">
+                <div class="content_alert alert_cart">
+                    <div class="icon-warning d-flex justify-content-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-circle-check-big icon_cart mt-3"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 
+                            11 3 3L22 4"/></svg>
+                    </div>
+                    <h3 class="text-center fs-6 mt-3">${content}</h3>
+                </div>
+            </div>
+        </div>
+    `;
+        container.innerHTML += alertHtml;
+        setTimeout(() => {
+            let alertElement = document.getElementById('alertSuccessfully');
+            if (alertElement) {
+                alertElement.remove();
+            }
+        }, 2000);
+    }
+
+    <?php if ($login_success) : ?>
+    alertSuccessfully("Đăng nhập Thành Công!");
+    <?php endif; ?>
+    </script>
 </body>
 
 </html>

@@ -5,6 +5,10 @@
     $errors = [];
     $optionSize = $dbHelper->select("SELECT * FROM sizes");
     // var_dump($optionSize);
+
+    if (isset($_SERVER['HTTP_REFERER'])) {
+        $prevHttps = $_SERVER['HTTP_REFERER'];
+    }
     
     
 
@@ -33,7 +37,12 @@
                 ];
                 $lastInsert = $dbHelper->insert('product_size_color', $data);
             }
-            header("Location: add_pic.php?id=$id");
+            if (isset($prevHttps) && $prevHttps = "http://localhost/project-summer-2024/admin/products/list_color.php?id=$id") {
+                header("Location: " . $prevHttps);
+                exit();
+            } else {
+                header("Location: add_pic.php?id=$id");
+            }
         } else {
             echo "Invalid input data.";
         }
