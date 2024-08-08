@@ -4,15 +4,7 @@
     $listComment = $dbHelper->select("SELECT * FROM coment");
     $idUser = $listComment[0]['idUser'];
     $users = $dbHelper->select("SELECT * FROM users WHERE idUser = $idUser");
-    $name = $users[0]['name'];
-    // $searchTerm = isset($_POST['search']) ? trim($_POST['search']) : "";    
-    // $users = [];
-
-// if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($searchTerm)) {
-//     $comments = $dbHelper->select("SELECT * FROM coment WHERE id LIKE ?", array('%' . $searchTerm . '%'));
-// } else {
-//     $users = $dbHelper->select("SELECT * FROM users");
-// }                            
+    $name = $users[0]['name'];                           
 ?>
 
 
@@ -77,7 +69,7 @@
                                 <td><?php echo $comments['commentDate']?></td>
                                 <td>
                                     <div class="action">
-                                        <a href="../../client/detail_products.php?id=<?php echo $comments['idComment']; ?>" class="remove_users fw-bold text-primary text-decoration-none mx-3">xem</a>
+                                        <a href="../../client/detail_products.php?id=<?php echo $comments['idProduct']; ?>" class="remove_users fw-bold text-primary text-decoration-none mx-3">xem</a>
                                         <a href="delete_cmt.php?id=<?php echo $comments['idComment']; ?>" class="remove_users fw-bold text-danger text-decoration-none" onclick="alertRemove(event, 'người dùng')">Xóa</a>
                                     </div>
                                 </td>

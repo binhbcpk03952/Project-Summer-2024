@@ -174,3 +174,41 @@ function alertSuccessfully(content) {
         }
     }, 2000);
 }
+function alertRemove(event, content) {
+    event.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ <a>
+    targetUrl = event.target.href; // Lưu trữ URL đích
+
+    let logout = document.elementById('logout');
+    let alertHtml = `
+        <div class="container-fluid position_alert" id="alertBox">
+            <div class="bg-alert d-flex justify-content-center align-items-center w-100">
+                <div class="content_alert">
+                    <h3 class="text-center">Bạn có chắc chắn muốn đăng xuất "<b> ${content} </b>"?</h3>
+                    <div class="icon-warning d-flex justify-content-center">
+                        <i class="fa-solid fa-triangle-exclamation fs-1 text-danger"></i>
+                    </div>
+                    <div class="btn-option d-flex justify-content-between mx-5 mt-4">
+                        <button class="btn color-bg text-white" onclick="abort()">Hủy</button>
+                        <button class="btn btn-danger" onclick="remove()">Đăng Xuất</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    logout.innerHTML += alertHtml;
+}
+function abort() {
+    let alertBox = document.getElementById('alertBox');
+    if (alertBox) {
+        alertBox.remove();
+    }
+}
+
+function remove() {
+    let alertBox = document.getElementById('alertBox');
+    if (alertBox) {
+        alertBox.remove();
+    }
+    // Chuyển hướng đến URL đích
+    window.location.href = targetUrl;
+}

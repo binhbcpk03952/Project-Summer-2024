@@ -1,14 +1,13 @@
 <?php
     include_once("../DBUntil.php");
     session_start();
-
+    $dbHelper = new DBUntil();
     // Khởi tạo biến và mảng lưu lỗi
     $errors = [];
     $comment_text = "";
-    $dbHelper = new DBUntil();
     $name = "";
     $image = "";
-    $idUser = 1; // Thay bằng $_SESSION['id'] trong ứng dụng thực tế
+    $idUser = $_SESSION['id']; // Thay bằng $_SESSION['id'] trong ứng dụng thực tế
     $idProduct = 1; // Thay bằng $_SESSION['idProduct'] trong ứng dụng thực tế
 
     // Lấy thông tin người dùng và sản phẩm từ cơ sở dữ liệu
