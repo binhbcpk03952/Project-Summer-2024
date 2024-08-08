@@ -11,10 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } 
     if (!isset($_POST['password']) || empty($_POST['password'])) {
         $errors['password'] = "Mật khẩu là bắt buộc";
-    } else {
-    if (strlen($_POST['password']) < 6) {
+    } else if (strlen($_POST['password']) < 6) {
       $errors['password'] = "Mật khẩu phải lớn hơn 6 kí tự";
-        }
     }
     if (!isset($_POST['passConfirm-forgot']) || empty($_POST['passConfirm-forgot'])) {
         $errors['passConfirm-forgot'] = "Xác nhận mật khẩu là bắt buộc";

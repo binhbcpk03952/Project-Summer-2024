@@ -1,6 +1,7 @@
 <?php
     include "../../client/DBUntil.php";
     $dbHelper = new DBUntil();
+    session_start();
     function ischeckCode($code){
         $dbHelper = new DBUntil();
         $codeExists = $dbHelper->select("SELECT code FROM coupons WHERE code = ?", [$code]);
@@ -41,6 +42,8 @@
             $errors['discount'] = "Giảm giá là bắt buộc";
         }else if ($_POST['discount'] < 0) {
             $errors['discount'] = "Giảm giá phải lớn hơn 0";
+        }else if ($_POST['discount'] > 100) {
+            $errors['discount'] = "Giảm giá phải bé hơn 100";
         }
          else {
             $discount = $_POST['discount'];
@@ -69,8 +72,9 @@
 
         if ($isCreate) {
             // Redirect to the same page to see the new record in the table
+            $_SESSION['success'] = true;
             header("Location: list.php");
-            echo "<script>alert('Thêm mã thành công!');</script>";
+
             exit();
         } else {
             $errors['database'] = "Failed to create new user";

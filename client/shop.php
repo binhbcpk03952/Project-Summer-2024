@@ -2,16 +2,14 @@
     session_start();
     include "./DBUntil.php";
     $dbHelper = new DBUntil();
-    // echo $_SESSION['id'];
-
-    $products = $dbHelper->select("SELECT p.*, MIN(pic.namePic) AS namePic 
+$products = $dbHelper->select("SELECT p.*, MIN(pic.namePic) AS namePic 
     FROM products p
     JOIN picproduct pic ON p.idProduct = pic.idProduct
     GROUP BY p.idProduct
     ORDER BY p.idProduct");
 ?>
 
-<?php include "./includes/head.php" ?>
+<?php include "./includes/head.php"; ?>
 
 <!-- Tải jQuery trước mã JavaScript của bạn -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>

@@ -63,10 +63,21 @@ $dbHelper = new DBUntil();
                                 $idUser = $_SESSION['id'];
                                 $users = $dbHelper->select("SELECT * FROM users WHERE idUser = $idUser");
                                 $image = $users[0]['image'];
-                            
+                                $role = $users[0]['role'];
+                                $textRole = '';
                              if(empty($image)){
                                     $image = "avt.png";
                                 }
+                            if($role == 'admin'){
+                                $textRole = '
+                                <li><a class="dropdown-item" href="../admin/index.html">
+                                      <i class="fa-solid fa-pencil mx-1"></i>
+                                        Quản Trị
+                                    </a></li>
+                                ';
+                            } else {
+                                $textRole = '';
+                            }
                             echo '
 
                         <div class="dropdown">
@@ -86,6 +97,7 @@ $dbHelper = new DBUntil();
                                         Thông tin tài khoản
                                     </a>
                                 </li>
+                                '. $textRole .'
                                 <li><a class="dropdown-item" href="logout.php">
                                         <i class="fa-solid fa-right-from-bracket mx-1"></i>
                                         Đăng xuất

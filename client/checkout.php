@@ -32,12 +32,6 @@ $address = $dbHelper->select("SELECT * FROM address WHERE idUser = ?", [$idUser]
 // echo $address[0]['nameStreet'];
 // var_dump($address);
 
-if ($address) {
-    echo "hihahehe";
-} else {
-    echo "dat";
-}
-
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!isset($_POST['addressOrder']) || empty($_POST['addressOrder'])) {

@@ -1,5 +1,6 @@
 <?php
 include "../../client/DBUntil.php";
+session_start();
 $dbHelper = new DBUntil();
 
 $id = $_GET['id'];
@@ -145,6 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ];
             $isUpdate = $dbHelper->update("users", $updateData, "idUser = $id");   
         if ($isUpdate) {
+            $_SESSION['success'] = true;
             header("Location: list.php");
             exit();
         } 

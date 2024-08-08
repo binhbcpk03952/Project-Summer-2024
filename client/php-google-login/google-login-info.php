@@ -28,6 +28,7 @@ if (isset($_GET['code'])) {
 
     if (count($result) > 0) {
         // Người dùng đã tồn tại, có thể cập nhật thông tin hoặc chuyển hướng đến trang khác
+        $_SESSION['success'] = true;
         header("Location: http://localhost/project-summer-2024/client/index.php");
         $_SESSION['id'] = $result[0]['idUser'];
     } else {

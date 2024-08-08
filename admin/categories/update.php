@@ -1,10 +1,31 @@
 <?php
     include "../../client/DBUntil.php";
     $dbHelper = new DBUntil();
+    session_start();
     $id = $_GET['id'];
     
     $category = $dbHelper->select("SELECT * FROM categories WHERE idCategories = ?", [$id])[0];
     // var_dump($category);
+    $errors = [];
+    $nameCategori = "";
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (!isset($_POST['name_category']) || empty($_POST['name_category'])) {
+            $errors['name_category'] = "Tên là bắt buộc";
+        } else {
+            $nameCategori = $_POST['name_category'];
+        }
+    if (empty($errors)) {
+        $data = [
+            'nameCategories' => $nameCategori,
+        ];
+            $isUpdate = $dbHelper->update("categories", $data, "idCategories = $id");   
+        if ($isUpdate) {
+            $_SESSION['success'] = true;
+            header("Location: list.php");
+            exit();
+        } 
+    }
+}
 ?>
 
 
@@ -31,7 +52,7 @@
                                         id="name_category" class="form-control" value="<?php echo $category['nameCategories'] ?>">
                                 </div>
                                 <div class="d-flex justify-content-between mt-3">
-                                    <a href="#" class="return btn text-white color-bg">
+                                    <a href="list.php" class="return btn text-white color-bg">
                                         <i class="fa-solid fa-right-from-bracket deg-180"></i>
                                         Quay lại
                                     </a>
