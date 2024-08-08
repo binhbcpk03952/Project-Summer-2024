@@ -124,17 +124,13 @@ foreach ($results as $row) {
             <div class="col-lg-1"></div>
         </div>
     </div>
-    
-    <?php
-    include_once('./comment/comment.php');
-    ?>
     <div id="alerts-container"></div>
     <script>
         // JavaScript to handle the click event on the thumbnails
     </script>
     <script src="./js/script.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+<?php include "./comment/comment.php" ?>
 <script>
 function alertCart(content) {
     let container = document.getElementById('alerts-container');

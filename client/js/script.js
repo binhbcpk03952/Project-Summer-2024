@@ -174,6 +174,7 @@ function alertSuccessfully(content) {
         }
     }, 2000);
 }
+<<<<<<< HEAD
 function alertRemove(event, content) {
     event.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ <a>
     targetUrl = event.target.href; // Lưu trữ URL đích
@@ -212,3 +213,23 @@ function remove() {
     // Chuyển hướng đến URL đích
     window.location.href = targetUrl;
 }
+=======
+
+document.addEventListener('DOMContentLoaded', function() {
+    const thumbnails = document.querySelectorAll('.image_thumbnail img');
+    const showImage = document.querySelector('.show_image');
+    
+    thumbnails.forEach(thumbnail => {
+        thumbnail.addEventListener('click', function() {
+            // Remove active class from all thumbnails
+            thumbnails.forEach(thumb => thumb.classList.remove('active'));
+            
+            // Add active class to the clicked thumbnail
+            thumbnail.classList.add('active');
+            
+            // Set the clicked thumbnail image as the main image
+            showImage.innerHTML = `<img src="${thumbnail.src}" alt="main image">`;
+        });
+    });
+});
+>>>>>>> 998701e3df9136fc557d558782a8273c6713af93

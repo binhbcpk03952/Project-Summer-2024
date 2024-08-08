@@ -156,7 +156,7 @@ function remove(targetUrl) {
 </script>
     <div class="container-fluid p-0">
         <div class="d-flex justify-content-center align-items-center header-outstanding">
-            <p class="link-cate m-2 fw-bold">BE CONFIDENT - <a href="#">OUT NOW</a></p>
+            <p class="link-cate m-1 fw-bold">BE CONFIDENT - <a href="#">OUT NOW</a></p>
         </div>
     </div>
 </header>

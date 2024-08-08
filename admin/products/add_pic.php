@@ -1,10 +1,18 @@
 <?php
-    include "../../client/DBUntil.php";
-    $dbHelper = new DBUntil();
-    $uploadDirectory = "image/";
-    $id = $_GET['id'];
-
+include "../../client/DBUntil.php";
+$dbHelper = new DBUntil();
+$uploadDirectory = "image/";
+$id = $_GET['id'];
 // Tạo thư mục nếu chưa tồn tại
+// Debugging logs
+$prevHttps = "http://localhost/project-summer-2024/admin/products/list_image.php?id=$id";
+$previous_url = $_SERVER['HTTP_REFERER'];
+
+
+echo "Previous URL: " . $_SERVER['HTTP_REFERER'];
+echo "Target URL: " . $prevHttps;
+echo "Redirecting to: " . (strpos($previous_url, $prevHttps) !== false ? $previous_url : "list.php?id=$id");
+
 if (!is_dir($uploadDirectory)) {
     mkdir($uploadDirectory, 0777, true);
 }
@@ -19,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['images'])) {
         $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
 
         // Kiểm tra định dạng file
-        $allowTypes = array('jpg', 'png', 'jpeg', 'gif');
+        $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'webp');
         if (in_array($fileType, $allowTypes)) {
             // Upload file lên server
             if (move_uploaded_file($images['tmp_name'][$i], $targetFilePath)) {
@@ -29,8 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['images'])) {
                     'idProduct' => $id,
                 ];
                 $lastInsert = $dbHelper->insert("picproduct", $data);
-                header("location: list.php");
-                exit();
             } else {
                 echo "Error uploading file " . $fileName;
             }
@@ -38,8 +44,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['images'])) {
             echo "Invalid file type: " . $fileName;
         }
     }
-
     echo "Files uploaded successfully.";
+    if ($lastInsert) {
+        $prevHttps = "http://localhost/project-summer-2024/admin/products/list_image.php?id=$id";
+
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            $previous_url = $_SERVER['HTTP_REFERER'];
+
+            if (strpos($previous_url, $prevHttps) !== false) {
+                header("Location: " . $previous_url);
+            } else {
+                header("Location: list.php?id=$id");
+            }
+        } else {
+            header("Location: list.php?id=$id");
+        }
+        exit(); // Đảm bảo không có mã nào khác được thực thi sau khi chuyển hướng
+    }
 } else {
     echo "No files selected.";
 }
@@ -73,12 +94,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['images'])) {
         document.getElementById('imageUpload').addEventListener('change', function(event) {
             var imagePreview = document.getElementById('imagePreview');
             imagePreview.innerHTML = ''; // Xóa nội dung cũ trước khi hiển thị ảnh mới
-            
+
             var files = event.target.files;
-            
+
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
-                
+
                 if (file) {
                     var reader = new FileReader();
                     reader.onload = (function(file) {
