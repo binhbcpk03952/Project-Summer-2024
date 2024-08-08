@@ -204,7 +204,7 @@ function submitForm(productId) {
     // Thực hiện validate phía client
     let valid = true;
     if (!color) {
-        document.getElementById('color-error-' + productId).innerText = 'Đây là trường bắt buộc';
+        document.getElementById('color-error-' + productId).innerText = 'Vui lòng chọn màu sắc.';
         valid = false;
     } else {
         document.getElementById('color-error-' + productId).innerText = '';

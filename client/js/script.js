@@ -174,3 +174,21 @@ function alertSuccessfully(content) {
         }
     }, 2000);
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const thumbnails = document.querySelectorAll('.image_thumbnail img');
+    const showImage = document.querySelector('.show_image');
+    
+    thumbnails.forEach(thumbnail => {
+        thumbnail.addEventListener('click', function() {
+            // Remove active class from all thumbnails
+            thumbnails.forEach(thumb => thumb.classList.remove('active'));
+            
+            // Add active class to the clicked thumbnail
+            thumbnail.classList.add('active');
+            
+            // Set the clicked thumbnail image as the main image
+            showImage.innerHTML = `<img src="${thumbnail.src}" alt="main image">`;
+        });
+    });
+});
