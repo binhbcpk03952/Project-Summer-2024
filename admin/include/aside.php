@@ -8,13 +8,13 @@
     <div class="aside-content show-aside bg-dark pt-5">
         <ul class="nav-aside p-0 mx-4 mt-5">
             <li class="nav-link">
-                <a href="../../../project-summer-2024/admin/index.php" class="text-white text-decoration-none">
+                <a href="index.php" class="text-white text-decoration-none">
                     <i class="fa-solid fa-layer-group mx-2"></i>
                     Tổng hợp
                 </a>
             </li>
             <li class="nav-link">
-                <a href="../categories/list.php" class="text-white text-decoration-none">
+                <a href="index.php?view=category_list" class="text-white text-decoration-none">
                     <i class="fa-brands fa-docker mx-2"></i>
                     Danh mục
                 </a>

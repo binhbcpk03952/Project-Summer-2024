@@ -1,7 +1,7 @@
 <?php
-    include "../../client/DBUntil.php"; 
-    session_start();
-    $dbHelper = new DBUntil();
+    // include "../../client/DBUntil.php"; 
+    // session_start();
+    // $dbHelper = new DBUntil();
 
     $categories = $dbHelper->select('SELECT * FROM categories');
     $id = $_GET['id'];
@@ -14,7 +14,7 @@
         "idCategories" => $catgory['idCategories'],
         "nameCategories" => $catgory['nameCategories']
     ];
-    var_dump(($catgory));
+    // var_dump(($catgory));
     $errors = [];
     function isCheckCate($name, $id) {
         global $dbHelper;
@@ -41,24 +41,10 @@
                 'idCategories' => $_POST['name_category']
             ];
             $lastInsertId = $dbHelper->update('subcategories', $data , "idSubCategory = $id"); 
-            header('Location: list.php');
+            header('Location: index.php?view=subCategory_list');
         }
     }
 ?>
-
-
-<!DOCTYPE html>
-<html lang="en">
-    <?php include "../include/head.php" ?>
-    
-    <body>
-       <?php include "../include/header.php" ?>
-        <div class="container-fluid">
-            <div class="row">
-                <?php include "../include/aside.php" ?>
-
-                <!-- main  -->
-                <main class="col-md-10 mt-5">
                     <div class="row">
                         <div class="col-md-3"></div>
                         <div class="col-md-6">
@@ -87,22 +73,14 @@
                                     ?>
                                 </div>
                                 <div class="d-flex justify-content-between mt-3">
-                                    <a href="list.php" class="return btn text-white color-bg">
+                                    <a href="index.php?view=subCategory_list" class="return btn text-white color-bg">
                                         <i class="fa-solid fa-right-from-bracket deg-180"></i>
                                         Quay lại
                                     </a>
 
-                                    <button type="submit" class="btn color-bg text-white">cập nhật danh mục</button>
+                                    <button type="submit" class="btn color-bg text-white">Cập nhật danh mục</button>
                                 </div>
                             </form>
                         </div>
                         <div class="col-md-3"></div>
                     </div>
-                </main>
-            </div>
-        </div>
-
-        <?php include "../include/footer.php" ?>     
-    </body>
-
-</html>

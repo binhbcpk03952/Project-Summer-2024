@@ -17,7 +17,42 @@ include "./include/role.php";
     <div class="container-fluid">
         <div class="row">
 
-            <?php include "./include/aside.php" ?>
+            <aside class="col-md-2 d-block">
+                <div class="aside-content show-aside bg-dark pt-5">
+                    <ul class="nav-aside p-0 mx-4 mt-5">
+                        <li class="nav-link">
+                            <a href="index.php" class="text-white text-decoration-none">
+                                <i class="fa-solid fa-layer-group mx-2"></i>
+                                Tổng hợp
+                            </a>
+                        </li>
+                        <li class="nav-link">
+                            <a href="index.php?view=category_list" class="text-white text-decoration-none">
+                                <i class="fa-brands fa-docker mx-2"></i>
+                                Danh mục
+                            </a>
+                        </li>
+                        <li class="nav-link">
+                            <a href="../users/list.php" class="text-white text-decoration-none">
+                                <i class="fa-solid fa-user mx-2"></i>
+                                Người dùng
+                            </a>
+                        </li>
+                        <li class="nav-link">
+                            <a href="#" class="text-white text-decoration-none">
+                                <i class="fa-solid fa-shirt mx-2"></i>
+                                Sản phẩm
+                            </a>
+                        </li>
+                        <li class="nav-link">
+                            <a href="#" class="text-white text-decoration-none">
+                                <i class="fa-regular fa-calendar-check mx-2"></i>
+                                Đơn hàng
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
             <main class="col-md-10 mt-5">
                 <?php
                 // include_once('../DBUtil.php');
@@ -29,38 +64,74 @@ include "./include/role.php";
                         include_once('./users/list.php');
                         break;
                     case 'user_delete':
-                        include_once('./User/delete.php');
+                        include_once('./users/remove_users.php');
                         break;
                     case 'user_update':
-                        include_once('./User/edit.php');
+                        include_once('./users/update_users.php');
                         break;
                     case 'user_created':
-                        include_once('./User/created.php');
+                        include_once('./users/add.php');
                         break;
+                        // danh mục 
                     case 'category_list':
-                        include_once('./Categories/list.php');
+                        include_once('./categories/list.php');
                         break;
                     case 'category_delete':
-                        include_once('./Categories/delete.php');
+                        include_once('./categories/remove.php');
                         break;
                     case 'category_update':
-                        include_once('./Categories/edit.php');
+                        include_once('./categories/update.php');
                         break;
                     case 'category_created':
-                        include_once('./Categories/createdCat.php');
+                        include_once('./categories/add.php');
                         break;
+
+                        //danh mục con
+                    case 'subCategory_list':
+                        include_once('./sub_categories/list.php');
+                        break;
+                    case 'subCategory_delete':
+                        include_once('./sub_categories/remove.php');
+                        break;
+                    case 'subCategory_update':
+                        include_once('./sub_categories/update.php');
+                        break;
+                    case 'subCategory_created':
+                        include_once('./sub_categories/add.php');
+                        break;
+
+                        // sản phẩm
                     case 'product_list':
                         include_once('./products/list.php');
                         break;
                     case 'product_delete':
-                        include_once('./products/delete.php');
+                        include_once('./products/remove.php');
                         break;
                     case 'product_update':
-                        include_once('./products/edit.php');
+                        include_once('./products/update.php');
+                        break;
+                    case 'product_list-color':
+                        include_once('./products/list_color.php');
+                        break;
+                    case 'product_list-image':
+                        include_once('./products/list_image.php');
+                        break;
+                    case 'product_update-color':
+                        include_once('./products/update-color.php');
+                        break;
+                    case 'product_update-image':
+                        include_once('./products/update-image.php');
                         break;
                     case 'product_created':
-                        include_once('./products/created-Prd.php');
+                        include_once('./products/add.php');
                         break;
+                    case 'product_created-color':
+                        include_once('./products/add_color_size.php');
+                        break;
+                    case 'product_created-image':
+                        include_once('./products/add_pic.php');
+                        break;
+                        // gio hang
                     case 'order_list':
                         include_once('./order/order-admin.php');
                         break;

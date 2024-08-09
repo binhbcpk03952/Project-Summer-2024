@@ -1,7 +1,7 @@
 
 <?php
-include "../../client/DBUntil.php";
-$dbHelper = new DBUntil();
+// include "../../client/DBUntil.php";
+// $dbHelper = new DBUntil();
 $uploadDirectory = "image/";
 $id = $_GET['id'];
 // Tạo thư mục nếu chưa tồn tại
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['images'])) {
     }
     echo "Files uploaded successfully.";
     if ($lastInsert) {
-        $prevHttps = "http://localhost/project-summer-2024/admin/products/list_image.php?id=$id";
+        $prevHttps = "http://localhost/project-summer-2024/admin/index.php?view=product_list-image&id=$id";
 
         if (isset($_SERVER['HTTP_REFERER'])) {
             $previous_url = $_SERVER['HTTP_REFERER'];

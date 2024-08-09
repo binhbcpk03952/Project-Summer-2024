@@ -71,7 +71,7 @@ function alertSuccessfully(content) {
                             </form>
                         </div>
                         <div class="add-category">
-                            <a href="./add.php" class="btn color-bg text-white px-4 mx-5">Thêm người dùng</a>
+                            <a href="index.php?view=user_created" class="btn color-bg text-white px-4 mx-5">Thêm người dùng</a>
                         </div>
                     </div>
                     <table class="table" style="width: 100%;">
@@ -116,8 +116,8 @@ function alertSuccessfully(content) {
                                 </td>
                                 <td>
                                     <div class="action">
-                                        <a href="update_users.php?id=<?php echo $users['idUser']; ?>" class="update_product text-decoration-none fw-bold mx-2">Cập nhật</a>
-                                        <a href="remove_users.php?id=<?php echo $users['idUser'] ?>" class="remove_users fw-bold text-danger text-decoration-none" onclick="alertRemove(event, 'người dùng')">Xóa</a>
+                                        <a href="index.php?view=user_update&id=<?php echo $users['idUser']; ?>" class="update_product text-decoration-none fw-bold mx-2">Cập nhật</a>
+                                        <a href="index.php?view=user_delete&id=<?php echo $users['idUser'] ?>" class="remove_users fw-bold text-danger text-decoration-none" onclick="alertRemove(event, 'người dùng')">Xóa</a>
 
                                     </div>
                                 </td>
