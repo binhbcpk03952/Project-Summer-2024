@@ -1,14 +1,14 @@
 <?php
 session_start();
-if (isset($_SESSION['id'])) {
-    $idUser = $_SESSION['id'];
-}
 include "./DBUntil.php";
 $dbHelper = new DBUntil();
 $checkCart = $dbHelper->select("SELECT * FROM users us  
                                             JOIN carts ca ON ca.idUser = us.idUser
                                             WHERE ca.idUser = ?", [$_SESSION['id']]);
 $idCart = $checkCart[0]['idCart'];
+if (isset($_SESSION['id'])) {
+    $idUser = $_SESSION['id'];
+}
 
 $carts = $dbHelper->select("SELECT dca.*, MIN(pic.namePic) AS namePic, pr.*, psc.*, us.*, dca.color
                                 FROM carts ca 
@@ -35,12 +35,12 @@ $address = $dbHelper->select("SELECT * FROM address WHERE idUser = ?", [$idUser]
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!isset($_POST['addressOrder']) || empty($_POST['addressOrder'])) {
-        $errors['addressOrder'] = "Đây là trường bắt buộc";
+        $errors['addressOrder'] = "Vui lòng chọn địa chỉa nhận hàng.";
     } else {
         $addressOrder = $_POST['addressOrder'];
     }
     if (!isset($_POST['payment_method']) || empty($_POST['payment_method'])) {
-        $errors['payment_method'] = "Đây là trường bắt buộc";
+        $errors['payment_method'] = "Vui lòng chọn phương thức thanh thanh toán.";
     } else {
         $payment_method = $_POST['payment_method'];
     }
@@ -49,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (count($errors) === 0) {
         echo "validate thanh cong";
+
         // chuaan bi du lieu de them du lieu vao database
         $currentDateTime = getdate();
         $mysqlDateTime = date("Y-m-d H:i:s", mktime(
@@ -66,36 +67,131 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $detailCart = $dbHelper->select("SELECT * FROM detailcart WHERE idCart = ?", [$checkCarts]);
         // var_dump($detailCart);
         $formatted_address = $address[0]['nameStreet'] . ', ' . $address[0]['nameAddress'];
-        $dataInsertOrder = [
-            "orderDate" => $mysqlDateTime,
-            "statusOrder" => 1,
-            "address" => $formatted_address,
-            "noteOrder" => $noteOrder,
-            "totalPrice" => getTotal() + 30000,
-            "idUser" => $_SESSION['id'],
-        ];
 
-        $insertOrder = $dbHelper->insert("orders", $dataInsertOrder);
-        $idOrder = $dbHelper->lastInsertId();
-        // echo '<pre>';
-        // var_dump($dataInsertOrder);
-        // echo '</pre>';
-        foreach ($detailCart as $row) {
-            $data = [
-                "quantityOrder" => $row['quantityCart'],
-                "size" => $row['size'],
-                "color" => $row['color'],
-                "idProduct" => $row['idProduct'],
-                "idOrder" => $idOrder,
+        if ($payment_method == 1) { // Phương thức thanh toán khi nhận hàng
+            $dataInsertOrder = [
+                "orderDate" => $mysqlDateTime,
+                "statusOrder" => 1,
+                "address" => $formatted_address,
+                "noteOrder" => $noteOrder,
+                "totalPrice" => getTotal() + 30000,
+                "idUser" => $_SESSION['id'],
             ];
-            $insertDetailOrder = $dbHelper->insert("detailorder", $data);
+
+            $insertOrder = $dbHelper->insert("orders", $dataInsertOrder);
+            $idOrder = $dbHelper->lastInsertId();
+            // echo '<pre>';
+            // var_dump($dataInsertOrder);
+            // echo '</pre>';
+            foreach ($detailCart as $row) {
+                $data = [
+                    "quantityOrder" => $row['quantityCart'],
+                    "size" => $row['size'],
+                    "color" => $row['color'],
+                    "idProduct" => $row['idProduct'],
+                    "idOrder" => $idOrder,
+                ];
+                $insertDetailOrder = $dbHelper->insert("detailorder", $data);
+            }
+
+            if ($insertOrder && $insertDetailOrder) {
+                echo '<script>alert("mua hang thanh cong!")</script>';
+
+                $removeCart = $dbHelper->delete("detailcart", "idCart = $checkCarts");
+                header("Location: thankyou.html");
+            }
         }
 
-        if ($insertOrder && $insertDetailOrder) {
-            echo '<script>alert("mua hang thanh cong!")</script>';
+        if ($payment_method == 2) {
+            error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
 
-            $removeCart = $dbHelper->delete("detailcart", "idCart = $checkCarts");
-            header("Location: shop.php");
+            define("VNPAY_TMN_CODE", "RLH2F0WJ");
+            define("VNPAY_HASH_SECRET", "8B4FKPIX260QZ8XPSBEE0GSFTD5QK0FY");
+            define("VNPAY_URL", "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html");
+            define("VNPAY_RETURN_URL", "http://localhost/project-summer-2024/client/thankyou.html");
+
+            $vnp_Url = VNPAY_URL;
+            $vnp_Returnurl = VNPAY_RETURN_URL;
+            $vnp_TmnCode = VNPAY_TMN_CODE; //Mã website tại VNPAY 
+            $vnp_HashSecret = VNPAY_HASH_SECRET; //Chuỗi bí mật
+
+            $vnp_TxnRef = rand(00, 9999); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+            $vnp_OrderInfo = "Thanh toan hoa don";
+            $vnp_OrderType = "billpayment";
+            $vnp_Amount = (getTotal() + 30000) * 100;
+            $vnp_Locale = "vn";
+            // $vnp_BankCode = "MBBANK";
+            $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+
+            $startTime = date("YmdHis");
+            $expire = date('YmdHis', strtotime('+15 minutes', strtotime($startTime)));
+            $inputData = array(
+                "vnp_Version" => "2.1.0",
+                "vnp_TmnCode" => $vnp_TmnCode,
+                "vnp_Amount" => $vnp_Amount,
+                "vnp_Command" => "pay",
+                "vnp_CreateDate" => date('YmdHis'),
+                "vnp_CurrCode" => "VND",
+                "vnp_IpAddr" => $vnp_IpAddr,
+                "vnp_Locale" => $vnp_Locale,
+                "vnp_OrderInfo" => $vnp_OrderInfo,
+                "vnp_OrderType" => $vnp_OrderType,
+                "vnp_ReturnUrl" => $vnp_Returnurl,
+                "vnp_TxnRef" => $vnp_TxnRef,
+                "vnp_ExpireDate" => $expire
+            );
+            //var_dump($inputData);
+            ksort($inputData);
+            $query = "";
+            $i = 0;
+            $hashdata = "";
+            foreach ($inputData as $key => $value) {
+                if ($i == 1) {
+                    $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+                } else {
+                    $hashdata .= urlencode($key) . "=" . urlencode($value);
+                    $i = 1;
+                }
+                $query .= urlencode($key) . "=" . urlencode($value) . '&';
+            }
+
+            $vnp_Url = $vnp_Url . "?" . $query;
+            if (isset($vnp_HashSecret)) {
+                $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret); //  
+                $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+            }
+            
+            $dataInsertOrder = [
+                "orderDate" => $mysqlDateTime,
+                "statusOrder" => 2,
+                "address" => $formatted_address,
+                "noteOrder" => $noteOrder,
+                "totalPrice" => getTotal() + 30000,
+                "idUser" => $_SESSION['id'],
+            ];
+
+            $insertOrder = $dbHelper->insert("orders", $dataInsertOrder);
+            $idOrder = $dbHelper->lastInsertId();
+            // echo '<pre>';
+            // var_dump($dataInsertOrder);
+            // echo '</pre>';
+            foreach ($detailCart as $row) {
+                $data = [
+                    "quantityOrder" => $row['quantityCart'],
+                    "size" => $row['size'],
+                    "color" => $row['color'],
+                    "idProduct" => $row['idProduct'],
+                    "idOrder" => $idOrder,
+                ];
+                $insertDetailOrder = $dbHelper->insert("detailorder", $data);
+            }
+            
+            if ($insertOrder && $insertDetailOrder) {
+                $removeCart = $dbHelper->delete("detailcart", "idCart = $checkCarts");
+            }
+            header('Location: ' . $vnp_Url);
+            die();
         }
     }
 }
@@ -104,6 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!DOCTYPE html>
 <html lang="en">
 <?php include "./includes/head.php" ?>
+
 <body>
     <?php include "./includes/header.php" ?>
     <!-- banner -->
@@ -126,7 +223,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <p class="fw-bold mb-2">1. Địa chỉ nhận hàng</p>
                                 <div class="detail-address px-2">
                                     <?php if (!$address) { ?>
-                                        <a href="#" class="add_to--address nav-link d-flex align-item-center ms-2">
+                                        <a href="add_address.php" class="add_to--address nav-link d-flex align-item-center ms-2">
                                             <i class="fa-solid fa-plus fs-3"></i>
                                             <label for="" class="ms-3">Thêm thông tin nhận hàng</label>
                                         </a>
@@ -180,9 +277,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         <label for="" class="fs-6 mx-2">Thanh toán VNPAY</label>
                                     </div>
                                     <?php
-                                        if (isset($errors['payment_method'])) {
-                                            echo "<span class='errors text-danger'>{$errors['payment_method']}</span>";
-                                        }
+                                    if (isset($errors['payment_method'])) {
+                                        echo "<span class='errors text-danger'>{$errors['payment_method']}</span>";
+                                    }
                                     ?>
                                 </div>
 

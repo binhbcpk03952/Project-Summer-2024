@@ -3,6 +3,7 @@
     $dbHelper = new DBUntil();
     session_start();
     $id = $_GET['id'];
+    include "../include/role.php";
     
     $category = $dbHelper->select("SELECT * FROM categories WHERE idCategories = ?", [$id])[0];
     // var_dump($category);

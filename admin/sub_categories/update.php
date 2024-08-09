@@ -5,16 +5,21 @@
 
     $categories = $dbHelper->select('SELECT * FROM categories');
     $id = $_GET['id'];
-    $catgory = $dbHelper->select("SELECT * FROM categories WHERE idCategories = $id")[0];
+    $catgory = $dbHelper->select("SELECT * FROM subcategories sub
+                                  INNER JOIN categories ca ON ca.idCategories = sub.idCategories
+                                  WHERE idSubCategory = $id")[0];
+
+    $categories = $dbHelper->select("SELECT * FROM categories");
+    $categories[0] = [
+        "idCategories" => $catgory['idCategories'],
+        "nameCategories" => $catgory['nameCategories']
+    ];
     var_dump(($catgory));
     $errors = [];
-    function isCheckCate($name) {
+    function isCheckCate($name, $id) {
         global $dbHelper;
-        $result = $dbHelper->select("SELECT nameSubCategory FROM subcategories WHERE nameSubCategory=?", [$name]);
-        if (count($result) > 0) {
-            return true;
-        }
-        return false;
+        $result = $dbHelper->select("SELECT nameSubCategory FROM subcategories WHERE nameSubCategory = ? AND idSubCategory != ?", [$name, $id]);
+        return count($result) > 0;
     }
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -25,7 +30,7 @@
         if(!isset($_POST['name_category']) || empty($_POST['name_category'])) {
             $errors['name_category'] = "Đây là trường bắt buộc <br>" ;
     }
-        elseif (isCheckCate($_POST['name_categories'])) {
+        elseif (isCheckCate($_POST['name_categories'], $id)) {
             $errors['name_categories'] = "Danh mục đã tồn tại <br>" ;
         }
         // var_dump($_POST);
@@ -35,7 +40,7 @@
                 'nameSubCategory' => $_POST['name_categories'],
                 'idCategories' => $_POST['name_category']
             ];
-            $lastInsertId = $dbHelper->insert('subcategories', $data);
+            $lastInsertId = $dbHelper->update('subcategories', $data , "idSubCategory = $id"); 
             header('Location: list.php');
         }
     }
@@ -62,7 +67,7 @@
                                 <div class="name-category">
                                     <label for="">Tên danh mục con</label>
                                     <input type="text" name="name_categories"
-                                        id="name_category" class="form-control" value="<?php echo $catgory['nameCategories']?>">
+                                        id="name_category" class="form-control" value="<?php echo $catgory['nameSubCategory']?>">
                                         <?php
                                             if(isset($errors['name_categories'])) {
                                                 echo "<span class='text-danger'>$errors[name_categories] </span>";
@@ -71,7 +76,6 @@
                                 </div>
                                 <div class="option-select mt-3">
                                     <select class="form-select" name="name_category">
-                                        <option value="<?php echo $catgory['idCategories']?>"><?php echo $catgory['nameCategories']?></option>
                                     <?php foreach ($categories as $cat) { ?>
                                         <option value="<?php echo $cat['idCategories'] ?>"><?php echo $cat['nameCategories'] ?></option>
                                     <?php } ?>
@@ -88,7 +92,7 @@
                                         Quay lại
                                     </a>
 
-                                    <button type="submit" class="btn color-bg text-white">Thêm danh mục</button>
+                                    <button type="submit" class="btn color-bg text-white">cập nhật danh mục</button>
                                 </div>
                             </form>
                         </div>

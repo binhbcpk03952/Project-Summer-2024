@@ -50,6 +50,140 @@
 /* .action .position-relative:hover .dropdown-menus { */
     /* display: block; */
 /* } */
+/* General Styling */
+/* body {
+    font-family: Arial, sans-serif;
+} */
+
+/* Table Styling */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.table th, .table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.table th {
+    background-color: #f8f9fa;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.image_list {
+    width: 80px;
+    height: auto;
+    object-fit: cover; /* Ensures images fill the space while maintaining aspect ratio */
+    border-radius: 5px;
+}
+
+/* Button Styling */
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.color-bg {
+    background-color: #007bff;
+}
+
+.color-bg:hover {
+    background-color: #0056b3;
+}
+
+.search-items input[type="search"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 200px;
+}
+
+.add-category a {
+    display: inline-block;
+}
+
+/* Dropdown Menus */
+.dropdown-menus {
+    display: none;
+    list-style: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    z-index: 2;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.dropdown-menus li {
+    margin: 5px 0;
+}
+
+.dropdown-menus li a {
+    text-decoration: none;
+    color: #000;
+    display: block;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.dropdown-menus li a:hover {
+    background-color: #f1f1f1;
+    color: #007bff;
+}
+
+/* Action Section */
+.action_dad {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.remove_product {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.remove_product:hover {
+    text-decoration: underline;
+}
+
+.update_product {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.update_product:hover {
+    text-decoration: underline;
+}
+
+.position-relative {
+    position: relative;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .table {
+        font-size: 14px;
+    }
+    
+    .image_list {
+        width: 60px;
+    }
+    
+    .search-items input[type="search"] {
+        width: 150px;
+    }
+}
+
 </style>
 
 <body>
@@ -110,8 +244,8 @@
                                         </a>
                                         <ul class="dropdown-menus position-absolute top-3 end-0 px-3 py-1" id="dropdown-menu">
                                             <li><a class="dropdown-item" href="update.php?id=<?php echo $product['idProduct'] ?>">Cập nhật thông tin</a></li>
-                                            <li><a class="dropdown-item" href="update_color?id=<?php echo $product['idProduct'] ?>">Danh sách màu sắc</a></li>
-                                            <li><a class="dropdown-item" href="update_image?id=<?php echo $product['idProduct'] ?>">Danh sách hình ảnh</a></li>
+                                            <li><a class="dropdown-item" href="list_color.php?id=<?php echo $product['idProduct'] ?>">Danh sách màu sắc</a></li>
+                                            <li><a class="dropdown-item" href="list_image.php?id=<?php echo $product['idProduct'] ?>">Danh sách hình ảnh</a></li>
                                         </ul>
                                     </div>
                                 </div>

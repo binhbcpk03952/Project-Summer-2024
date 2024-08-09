@@ -54,6 +54,35 @@ $listProducts = $dbHelper->select("SELECT * FROM products prd
     /* .action .position-relative:hover .dropdown-menus { */
     /* display: block; */
     /* } */
+    .list_image--product {
+    /* Ensure each image container is the same size */
+    width: 100%;
+    height: 200px; /* Adjust the height as needed */
+    overflow: hidden; /* Hide overflow to ensure images fit */
+    display: flex;
+    align-items: center; /* Center images vertically */
+    justify-content: center; /* Center images horizontally */
+}
+
+.list_image--product img {
+    width: 100%; /* Make image fill the container */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Ensure image covers the container while maintaining aspect ratio */
+}
+
+/* Optional: Add a border or padding for better visuals */
+.change_imgage {
+    border: 1px solid #ddd; /* Light border around images */
+    padding: 5px;
+    border-radius: 5px; /* Rounded corners */
+}
+
+.action {
+    /* Ensure actions have consistent styling */
+    text-align: center;
+    margin-top: 10px;
+}
+
 </style>
 
 <body>
@@ -92,7 +121,7 @@ $listProducts = $dbHelper->select("SELECT * FROM products prd
                                     <img src="./image/<?php echo $product['namePic'] ?>" alt="<?php echo $product['namePic'] ?>" class="w-100">
                                 </div>
                                 <div class="action d-flex justify-content-center mt-3">
-                                    <a href="" class="remove_product
+                                    <a href="update-image.php?id=<?php echo $product['idPic'] ?>&idPrd=<?php echo $product['idProduct'] ?>" class="remove_product
                                                 fw-bold text-primary text-decoration-none me-3">Cập nhật</a>
                                     <a href="./remove_file/remove_pic.php?id=<?php echo $product['idPic'] ?>&idPrd=<?php echo $product['idProduct'] ?>" class="remove_product
                                                 fw-bold text-danger text-decoration-none me-2" onclick="alertRemove(event, 'hình ảnh')">Xóa</a>

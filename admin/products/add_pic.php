@@ -1,3 +1,4 @@
+
 <?php
 include "../../client/DBUntil.php";
 $dbHelper = new DBUntil();
@@ -6,12 +7,10 @@ $id = $_GET['id'];
 // Tạo thư mục nếu chưa tồn tại
 // Debugging logs
 $prevHttps = "http://localhost/project-summer-2024/admin/products/list_image.php?id=$id";
-$previous_url = $_SERVER['HTTP_REFERER'];
 
 
-echo "Previous URL: " . $_SERVER['HTTP_REFERER'];
-echo "Target URL: " . $prevHttps;
-echo "Redirecting to: " . (strpos($previous_url, $prevHttps) !== false ? $previous_url : "list.php?id=$id");
+
+
 
 if (!is_dir($uploadDirectory)) {
     mkdir($uploadDirectory, 0777, true);
@@ -65,7 +64,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['images'])) {
     echo "No files selected.";
 }
 ?>
+<style>
+    input[type="file"] {
+        display: block;
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 2px dashed #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+        cursor: pointer;
+    }
 
+    button[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+    #imagePreview img {
+        max-width: 100%;
+        height: auto;
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        padding: 5px;
+        border-radius: 5px;
+    }
+</style>
 
 <!DOCTYPE html>
 <html lang="en">

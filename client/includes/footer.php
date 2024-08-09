@@ -14,18 +14,14 @@
                     </div>
                     <div class="info-footer">
                         <p class="m-0 fw-bold">CÔNG TY CỔ PHẦN THỜI
-                            TRANG PRINCES VIỆT NAM</p>
+                            TRANG FOUR PRINCES VIỆT NAM</p>
                         <p><span class="fw-bold">Hotline</span>: 1900
                             1000</p>
                     </div>
                     <div class="address-footer">
-                        <p class="m-0"><span class="fw-bold">VP Phía
-                                Bắc</span>: Tầng 17 tòa nhà Viwaseen, 48
-                            Phố Tố Hữu, Trung Văn, Nam Từ Liêm,
-                            Hà Nội.</p>
-                        <p><span class="fw-bold">VP Phía Nam</span>:
-                            186A Nam Kỳ Khởi Nghĩa, Phường Võ Thị Sáu,
-                            Quận 3, TP.HCM</p>
+                        <p class="m-0"><span class="fw-bold">Địa chỉ:</span>
+                    Tượng đài chiến thắng Buôn Ma Thuột, TP. Buôn Ma Thuột, tỉnh Đắk Lắk.
+                    </p>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,8 @@
 <?php
+    session_start();
     include "../../client/DBUntil.php";
     $dbHelper = new DBUntil();
+    include "../include/role.php";
 
     $errors = [];
     function isCheckCate($name) {

@@ -2,6 +2,8 @@
 include "../../client/DBUntil.php";
 $dbHelper = new DBUntil();
 session_start();
+
+include "../include/role.php";
 $id = $_GET['id'];
 $coupons = $dbHelper->select("SELECT * FROM coupons WHERE idCoupon = ?", [$id])[0];
 // Function to check if email exists in the database for a different user

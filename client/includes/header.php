@@ -14,15 +14,12 @@ $dbHelper = new DBUntil();
         </div>
         <?php include "nav.php" ?>
         <div class="header-search">
-            <button>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="lucide lucide-search">
-                    <circle cx="11" cy="11" r="8" />
-                    <path d="m21 21-4.3-4.3" />
-                </svg>
-            </button>
-            <input type="search" name="search" class="search" placeholder="Bạn tìm gì...">
+            <form action="../client/shop.php" method="GET">
+                <input type="search" name="search" id="search" placeholder="Bạn tìm sản phẩm gì...">
+                <button type="submit">
+                    <i class="fa-solid fa-search"></i>
+                </button>
+            </form>
         </div>
         <div class="cart-user">
             <ul class="d-flex justify-content-between align-items-center">
@@ -37,7 +34,7 @@ $dbHelper = new DBUntil();
                     </a>
                 </li>
                 <li class="nav-link mx-2">
-                    <a href="#">
+                    <a href="cart.php">
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
                             class="lucide lucide-shopping-bag">
@@ -70,7 +67,7 @@ $dbHelper = new DBUntil();
                                 }
                             if($role == 'admin'){
                                 $textRole = '
-                                <li><a class="dropdown-item" href="../admin/index.html">
+                                <li><a class="dropdown-item" href="../admin/index.php">
                                       <i class="fa-solid fa-pencil mx-1"></i>
                                         Quản Trị
                                     </a></li>

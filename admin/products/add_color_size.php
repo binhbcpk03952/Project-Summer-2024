@@ -157,7 +157,7 @@
                 container.appendChild(div);
                 update();
             }
-        }
+        } 
         
         function update() {
             let select = document.querySelector('#select');

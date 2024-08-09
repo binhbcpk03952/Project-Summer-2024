@@ -1,11 +1,27 @@
 <?php
 session_start();
+include "./DBUntil.php";
+$dbHelper = new DBUntil();
 $login_success = false;
 // echo ($_SESSION['id']);
 if (isset($_SESSION['success'])) {
     $login_success = true;
 }
-unset($_SESSION['success'])
+$products = $dbHelper->select("SELECT p.*, MIN(pic.namePic) AS namePic 
+    FROM products p
+    JOIN picproduct pic ON p.idProduct = pic.idProduct
+    GROUP BY p.idProduct
+    ORDER BY p.idProduct");
+
+$idsToDisplay = [3, 5, 6, 8];
+$selectedProducts = [];
+
+// Loop through the products to find the ones with the desired idProduct
+foreach ($products as $product) {
+    if (in_array($product['idProduct'], $idsToDisplay)) {
+        $selectedProducts[] = $product;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,87 +80,24 @@ unset($_SESSION['success'])
                         <h4 class="text-center fw-bold mb-4">BÁN CHẠY
                             NHẤT</h4>
                     </div>
+                    <?php foreach ($selectedProducts as $selectedProduct): ?>
                     <div class="col-md-3">
                         <div class="products-item">
                             <div class="image-product">
-                                <a href="#" class="image-product-links">
-                                    <img src="https://owen.cdn.vccloud.vn/media/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/a/p/apv231316.jpg"
-                                        alt class>
+                                <a href="detail_products.php?id=<?php echo $selectedProduct['idProduct'] ?>" class="image-product-links">
+                                    <img src="../admin/products/image/<?php echo $selectedProduct['namePic'] ?>" alt>
                                 </a>
-                                <a href="#" class="btn btn_add--checkout px-4">MUA
-                                    NGAY</a>
+                                <a href="#" class="btn btn_add--checkout px-4">MUA NGAY</a>
                             </div>
                             <div class="info_product mt-3">
-                                <a href="#" class="text-secondary fw-bold
-                                 text-decoration-none">NAME PRODUCTS - ID
-                                    PRD</a>
+                                <a href="#" class="text-secondary fw-bold text-decoration-none"><?php echo $selectedProduct['nameProduct']; ?></a>
                             </div>
                             <div class="price-product">
-                                180.000 đ
+                                <?php echo number_format($selectedProduct['price'], 0, ',', '.') . ' đ'; ?>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-md-3">
-                        <div class="products-item">
-                            <div class="image-product">
-                                <a href="#" class="image-product-links">
-                                    <img src="https://owen.cdn.vccloud.vn/media/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/s/w/sw231917.jpg"
-                                        alt class>
-                                </a>
-                                <a href="#" class="btn btn_add--checkout px-4">MUA
-                                    NGAY</a>
-                            </div>
-                            <div class="info_product mt-3">
-                                <a href="#" class="text-secondary fw-bold
-                                 text-decoration-none">NAME PRODUCTS - ID
-                                    PRD</a>
-                            </div>
-                            <div class="price-product">
-                                180.000 đ
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="products-item">
-                            <div class="image-product">
-                                <a href="#" class="image-product-links">
-                                    <img src="https://owen.cdn.vccloud.vn/media/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/a/p/apt231406_2_.jpg"
-                                        alt class>
-                                </a>
-                                <a href="#" class="btn btn_add--checkout px-4">MUA
-                                    NGAY</a>
-                            </div>
-                            <div class="info_product mt-3">
-                                <a href="#" class="text-secondary fw-bold
-                                 text-decoration-none">NAME PRODUCTS - ID
-                                    PRD</a>
-                            </div>
-                            <div class="price-product">
-                                180.000 đ
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="products-item">
-                            <div class="image-product">
-                                <a href="#" class="image-product-links">
-                                    <img src="https://owen.cdn.vccloud.vn/media/catalog/product/cache/01755127bd64f5dde3182fd2f139143a/a/e/ae240008n_1.jpg"
-                                        alt class>
-                                </a>
-                                <a href="#" class="btn btn_add--checkout px-4">MUA
-                                    NGAY</a>
-                            </div>
-                            <div class="info_product mt-3">
-                                <a href="#" class="text-secondary fw-bold
-                                 text-decoration-none">NAME PRODUCTS - ID
-                                    PRD</a>
-                            </div>
-                            <div class="price-product">
-                                180.000 đ
-                            </div>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>

@@ -224,10 +224,17 @@ function submitForm(productId) {
     // Thực hiện validate phía client
     let valid = true;
     if (!color) {
-        document.getElementById('color-error-' + productId).innerText = 'Đây là trường bắt buộc';
+        document.getElementById('color-error-' + productId).innerText = 'Vui lòng chọn màu sắc.';
         valid = false;
     } else {
         document.getElementById('color-error-' + productId).innerText = '';
+    }
+    if (!size && color) {
+        document.getElementById('size-error-' + productId).innerText = 'Vui lòng chọn kích thước.';
+        valid = false;
+    }
+    else {
+        document.getElementById('size-error-' + productId).innerText = '';
     }
 
     if (valid) {

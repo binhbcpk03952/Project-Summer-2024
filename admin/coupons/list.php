@@ -1,7 +1,11 @@
 <?php
 include_once('../../client/DBUntil.php');
 session_start();
+
+
 $dbHelper = new DBUntil();
+
+include "../include/role.php";
 $login_success = false;
 
 if (isset($_SESSION['success']) && $_SESSION['success'] === true) {

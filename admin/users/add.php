@@ -2,6 +2,7 @@
     include "../../client/DBUntil.php";
     session_start();
     $dbHelper = new DBUntil();
+    include "../include/role.php";
     // $users = $dbHelper->select("SELECT * FROM users");
     function isVietnamesePhoneNumber($number){
         return preg_match('/^(03|05|07|08|09|01[2689])[0-9]{8}$/', $number) === 1;

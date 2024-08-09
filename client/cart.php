@@ -1,16 +1,19 @@
 <?php
-    session_start();
-    if (isset($_SESSION['id'])) {
-        $idUser = $_SESSION['id'];
-    }
-    include "./DBUntil.php";
-    $dbHelper = new DBUntil();
-    $checkCart = $dbHelper->select("SELECT * FROM users us  
+session_start();
+if (isset($_SESSION['id'])) {
+    $idUser = $_SESSION['id'];
+}
+include "./DBUntil.php";
+$dbHelper = new DBUntil();
+
+$previous_url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'Không có trang trước';
+echo $previous_url;
+$checkCart = $dbHelper->select("SELECT * FROM users us  
                                             JOIN carts ca ON ca.idUser = us.idUser
                                             WHERE ca.idUser = ?", [$_SESSION['id']]);
-    $idCart = $checkCart[0]['idCart'];
+$idCart = $checkCart[0]['idCart'];
 
-    $carts = $dbHelper->select("SELECT dca.*, MIN(pic.namePic) AS namePic, pr.*, psc.*, us.*, dca.color
+$carts = $dbHelper->select("SELECT dca.*, MIN(pic.namePic) AS namePic, pr.*, psc.*, us.*, dca.color
                                 FROM carts ca 
                                 JOIN detailcart dca ON ca.idCart = dca.idCart
                                 INNER JOIN products pr ON pr.idProduct = dca.idProduct
@@ -19,18 +22,18 @@
                                 INNER JOIN users us ON us.idUser = ca.idUser
                                 WHERE us.idUser = ? AND dca.idCart = ?
                                 GROUP BY dca.idDetailCart", [$idUser, $idCart]);
-    function getTotal()
-    {
-        global $carts;
-        $sum = 0;
-        foreach ($carts as $cart) {
-            $sum += $cart['price'] * $cart['quantityCart'];
-        }
-        return $sum;
+function getTotal()
+{
+    global $carts;
+    $sum = 0;
+    foreach ($carts as $cart) {
+        $sum += $cart['price'] * $cart['quantityCart'];
     }
-    // echo getTotal();
-    // var_dump($carts);
-    // echo count($carts);
+    return $sum;
+}
+// echo getTotal();
+// var_dump($carts);
+// echo count($carts);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,50 +67,46 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($carts as $cart): ?>
-                            <tr>
-                                <td>
-                                    <div class="cart-products d-flex align-items-center">
-                                        <div class="image-products">
-                                            <img src="../admin/products/image/<?php echo $cart['namePic'] ?>" alt=""
-                                                class="w-100">
-                                        </div>
-                                        <div class="product-content mx-2">
-                                            <a href="#" class="name-products text-secondary
+                            <?php foreach ($carts as $cart) : ?>
+                                <tr>
+                                    <td>
+                                        <div class="cart-products d-flex align-items-center">
+                                            <div class="image-products">
+                                                <img src="../admin/products/image/<?php echo $cart['namePic'] ?>" alt="" class="w-100">
+                                            </div>
+                                            <div class="product-content mx-2">
+                                                <a href="#" class="name-products text-secondary
                                                  fw-bold text-decoration-none"><?php echo $cart['nameProduct'] ?></a>
-                                            <p class="product-color">Màu sắc: <?php echo $cart['color'] ?></p>
-                                            <p class="product-size">Kích thước: <?php echo $cart['size'] ?></p>
+                                                <p class="product-color">Màu sắc: <?php echo $cart['color'] ?></p>
+                                                <p class="product-size">Kích thước: <?php echo $cart['size'] ?></p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="remove-cart d-flex align-items-center">
-                                        <a href="./carts/remove.php?idCart=<?php echo $cart['idCart'] ?>" class="fw-bold text-decoration-none">Xóa</a>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="quantity">
-                                        <button class="prev" 
-                                            onclick="updateQuantity(this, -1, <?php echo $cart['idProduct'] ?>, <?php echo $cart['quantityProduct'] ?>,<?php echo $cart['idDetailCart'] ?>)">-</button>
-                                        <input type="text" class="quantity-cart" name="quantity-cart"
-                                            value="<?php echo $cart['quantityCart'] ?>">
-                                        <button class="pluss" 
-                                            onclick="updateQuantity(this, 1, <?php echo $cart['idProduct'] ?>, <?php echo $cart['quantityProduct'] ?>, <?php echo $cart['idDetailCart'] ?>)">+</button>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="price">
-                                        <?php echo $cart['price'] ?>
+                                    </td>
+                                    <td>
+                                        <div class="remove-cart d-flex align-items-center">
+                                            <a href="./carts/remove.php?idCart=<?php echo $cart['idCart'] ?>" class="fw-bold text-decoration-none">Xóa</a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="quantity">
+                                            <button class="prev" onclick="updateQuantity(this, -1, <?php echo $cart['idProduct'] ?>, <?php echo $cart['quantityProduct'] ?>,<?php echo $cart['idDetailCart'] ?>)">-</button>
+                                            <input type="text" class="quantity-cart" name="quantity-cart" value="<?php echo $cart['quantityCart'] ?>">
+                                            <button class="pluss" onclick="updateQuantity(this, 1, <?php echo $cart['idProduct'] ?>, <?php echo $cart['quantityProduct'] ?>, <?php echo $cart['idDetailCart'] ?>)">+</button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="price">
+                                            <?php echo $cart['price'] ?>
+                                            <span class="fw-bold fs-7 text-decoration-underline">đ</span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="total-price" id="totalPrice-<?php echo $cart['idDetailCart'] ?>">
+                                            <?php echo $cart['price'] * $cart['quantityCart'] ?>
+                                        </span>
                                         <span class="fw-bold fs-7 text-decoration-underline">đ</span>
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="total-price" id="totalPrice-<?php echo $cart['idDetailCart'] ?>">
-                                        <?php echo $cart['price'] * $cart['quantityCart'] ?>
-                                    </span>
-                                    <span class="fw-bold fs-7 text-decoration-underline">đ</span>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
                             <?php endforeach; ?>
                         </tbody>
 
@@ -130,16 +129,14 @@
 
                     <div class="d-flex justify-content-between mt-3 mb-4">
                         <div class="to-shop">
-                            <a href="./shop.php"
-                                class="text-decoration-none text-center toCheck py-2 px-4 text-dark fw-bold">
+                            <a href="./shop.php" class="text-decoration-none text-center toCheck py-2 px-4 text-dark fw-bold">
                                 TIẾP TỤC MUA HÀNG
                             </a>
                         </div>
                         <div class="to-checkout">
                             <form action="" method="post">
                                 <input type="hidden" name="totalPrice" id="">
-                                <a href="checkout.php"
-                                    class="toCheck text-decoration-none text-center py-2 px-5 bg-dark text-white fw-bold">ĐẶT
+                                <a href="checkout.php" class="toCheck text-decoration-none text-center py-2 px-5 bg-dark text-white fw-bold">ĐẶT
                                     HÀNG</a>
                             </form>
                         </div>

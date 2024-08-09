@@ -2,6 +2,7 @@
 include "../../client/DBUntil.php";
 session_start();
 $dbHelper = new DBUntil();
+include "../include/role.php";
 
 $id = $_GET['id'];
 $user = $dbHelper->select("SELECT * FROM users WHERE idUser = ?", [$id])[0];

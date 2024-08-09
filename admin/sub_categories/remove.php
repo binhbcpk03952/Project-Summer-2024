@@ -6,5 +6,5 @@ var_dump($id);
 
 $dbHelper = new DBUntil();
 
-// $categories = $dbHelper->delete("subcategories", "idSubCategory = $id");
+$categories = $dbHelper->delete("subcategories", "idSubCategory = $id");
 header("Location:  list.php");

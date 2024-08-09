@@ -9,7 +9,7 @@
             <nav class="d-flex align-items-center nav-admin">
                 <ul class="m-0">
                     <li>
-                        <a href="#" class="text-white text-decoration-none">
+                        <a href="../categories/list.php" class="text-white text-decoration-none">
                             <i class="fa-solid fa-house"></i>
                             Trang chủ
                         </a>

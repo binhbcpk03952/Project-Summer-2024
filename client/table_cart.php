@@ -209,7 +209,13 @@ function submitForm(productId) {
     } else {
         document.getElementById('color-error-' + productId).innerText = '';
     }
-
+    if (!size && color) {
+        document.getElementById('size-error-' + productId).innerText = 'Vui lòng chọn kích thước.';
+        valid = false;
+    }
+    else {
+        document.getElementById('size-error-' + productId).innerText = '';
+    }
     if (valid) {
         $.ajax({
             url: 'process_form.php',
