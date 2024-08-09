@@ -40,6 +40,9 @@ body {
 .logo-img{
     width: 80%;
 } 
+header {
+    z-index: 3;
+}
 aside {
     z-index: 1;
 }

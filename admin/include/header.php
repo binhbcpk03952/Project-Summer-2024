@@ -1,6 +1,6 @@
 <header class="w-100 ">
     <div class="container-fluid bg-dark">
-        <div class="header-main d-flex align-items-center py-1">
+        <div class="header-main zindex-2 d-flex align-items-center py-1">
             <div class="btn-show-aside">
                 <button class="btn "><i class="fa-solid fa-bars text-white" onclick="showAside()"></i></button>
             </div>

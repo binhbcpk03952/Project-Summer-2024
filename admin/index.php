@@ -33,19 +33,19 @@ include "./include/role.php";
                             </a>
                         </li>
                         <li class="nav-link">
-                            <a href="../users/list.php" class="text-white text-decoration-none">
+                            <a href="index.php?view=user_list" class="text-white text-decoration-none">
                                 <i class="fa-solid fa-user mx-2"></i>
                                 Người dùng
                             </a>
                         </li>
                         <li class="nav-link">
-                            <a href="#" class="text-white text-decoration-none">
+                            <a href="index.php?view=product_list" class="text-white text-decoration-none">
                                 <i class="fa-solid fa-shirt mx-2"></i>
                                 Sản phẩm
                             </a>
                         </li>
                         <li class="nav-link">
-                            <a href="#" class="text-white text-decoration-none">
+                            <a href="index.php?view=order_list" class="text-white text-decoration-none">
                                 <i class="fa-regular fa-calendar-check mx-2"></i>
                                 Đơn hàng
                             </a>
