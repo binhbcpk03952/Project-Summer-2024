@@ -1,9 +1,7 @@
 <?php
-    session_start();
     include "../../client/DBUntil.php";
     $dbHelper = new DBUntil();
-
-    include "../include/role.php";
+    session_start();
     function ischeckCode($code){
         $dbHelper = new DBUntil();
         $codeExists = $dbHelper->select("SELECT code FROM coupons WHERE code = ?", [$code]);

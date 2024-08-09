@@ -1,8 +1,7 @@
 <?php
-    // include "../../client/DBUntil.php";
-    // session_start();
-    // $dbHelper = new DBUntil();
-    include "./include/role.php";
+    include "../../client/DBUntil.php";
+    session_start();
+    $dbHelper = new DBUntil();
     $listUser = $dbHelper->select("SELECT * FROM users");
     $searchTerm = isset($_POST['search']) ? trim($_POST['search']) : "";    
     $users = [];
@@ -20,7 +19,11 @@ if (isset($_SESSION['success']) && $_SESSION['success'] === true) {
 ?>
 
 
-
+<!DOCTYPE html>
+<html lang="en">
+    <?php include "../include/head.php" ?>
+    
+    <body>
     <div id="alerts-container"></div> <!-- Container cho thông báo -->
 <script>
 function alertSuccessfully(content) {
@@ -52,7 +55,13 @@ function alertSuccessfully(content) {
     alertSuccessfully("Thành Công!");
 <?php endif; ?>
 </script>
+       <?php include "../include/header.php" ?>
+        <div class="container-fluid">
+            <div class="row">
+                <?php include "../include/aside.php" ?>
+
                 <!-- main  -->
+                <main class="col-md-10 mt-5">
                     <h1 class="mt-4">Quản lí nguời dùng</h1>
                     <div class="container-fluid mt-2">
                         <nav aria-label="breadcrumb">
@@ -71,7 +80,7 @@ function alertSuccessfully(content) {
                             </form>
                         </div>
                         <div class="add-category">
-                            <a href="index.php?view=user_created" class="btn color-bg text-white px-4 mx-5">Thêm người dùng</a>
+                            <a href="./add.php" class="btn color-bg text-white px-4 mx-5">Thêm người dùng</a>
                         </div>
                     </div>
                     <table class="table" style="width: 100%;">
@@ -98,7 +107,7 @@ function alertSuccessfully(content) {
                                 <td><?php echo $users['email']?></td>
                                 <td><?php echo $users['phone']?></td>
                                 <td><?php echo $users['role']?></td>
-                                <td><img style="width: 50px; height: 50px;" src="./../../../project-summer-2024/admin/users/image/<?php echo $users['image']?>"></img></td>
+                                <td><img style="width: 50px; height: 50px;" src="image/<?php echo $users['image']?>"></img></td>
                                 <td>
                                     <button style="margin-right: 5px; border: none; width: 10px; height: 10px; border-radius: 100%; background-color: 
                                     <?php 
@@ -116,8 +125,8 @@ function alertSuccessfully(content) {
                                 </td>
                                 <td>
                                     <div class="action">
-                                        <a href="index.php?view=user_update&id=<?php echo $users['idUser']; ?>" class="update_product text-decoration-none fw-bold mx-2">Cập nhật</a>
-                                        <a href="index.php?view=user_delete&id=<?php echo $users['idUser'] ?>" class="remove_users fw-bold text-danger text-decoration-none" onclick="alertRemove(event, 'người dùng')">Xóa</a>
+                                        <a href="update_users.php?id=<?php echo $users['idUser']; ?>" class="update_product text-decoration-none fw-bold mx-2">Cập nhật</a>
+                                        <a href="remove_users.php?id=<?php echo $users['idUser'] ?>" class="remove_users fw-bold text-danger text-decoration-none" onclick="alertRemove(event, 'người dùng')">Xóa</a>
 
                                     </div>
                                 </td>
@@ -125,8 +134,11 @@ function alertSuccessfully(content) {
                         <?php }?>
                         </tbody>
                     </table>
+                </main>
             </div>
-        </div>  
+        </div>
+
+        <?php include "../include/footer.php" ?>     
     </body>
 
 </html>

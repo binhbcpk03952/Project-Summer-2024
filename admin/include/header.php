@@ -1,6 +1,6 @@
 <header class="w-100 ">
     <div class="container-fluid bg-dark">
-        <div class="header-main zindex-2 d-flex align-items-center py-1">
+        <div class="header-main d-flex align-items-center py-1">
             <div class="btn-show-aside">
                 <button class="btn "><i class="fa-solid fa-bars text-white" onclick="showAside()"></i></button>
             </div>
@@ -9,7 +9,7 @@
             <nav class="d-flex align-items-center nav-admin">
                 <ul class="m-0">
                     <li>
-                        <a href="../categories/list.php" class="text-white text-decoration-none">
+                        <a href="#" class="text-white text-decoration-none">
                             <i class="fa-solid fa-house"></i>
                             Trang chủ
                         </a>

@@ -1,8 +1,7 @@
 <?php
-// include "../../client/DBUntil.php";
-// session_start();
-// $dbHelper = new DBUntil();
-include "./include/role.php";
+include "../../client/DBUntil.php";
+session_start();
+$dbHelper = new DBUntil();
 
 $id = $_GET['id'];
 $user = $dbHelper->select("SELECT * FROM users WHERE idUser = ?", [$id])[0];
@@ -148,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $isUpdate = $dbHelper->update("users", $updateData, "idUser = $id");   
         if ($isUpdate) {
             $_SESSION['success'] = true;
-            header("Location: index.php?view=user_list");
+            header("Location: list.php");
             exit();
         } 
     }
@@ -161,6 +160,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 
+<!DOCTYPE html>
+<html lang="en">
+    <?php include "../include/head.php" ?>
+    
+    <body>
+       <?php include "../include/header.php" ?>
+        <div class="container-fluid">
+            <div class="row">   
+                <?php include "../include/aside.php" ?>
+                <!-- main  -->
+                <main class="col-md-10 mt-5">
                     <div class="row">
                         <div class="col-md-3"></div>
                         <div class="col-md-6">
@@ -252,7 +262,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         ?>
                                 </div>   
                                 <div class="d-flex justify-content-between mt-3">
-                                    <a href="index.php?view=user_list" class="return btn text-white color-bg">
+                                    <a href="list.php" class="return btn text-white color-bg">
                                         <i class="fa-solid fa-right-from-bracket deg-180"></i>
                                         Quay lại
                                     </a>
@@ -262,3 +272,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                         <div class="col-md-3"></div>
                     </div>
+                </main>
+            </div>
+        </div>
+        <?php include "../include/footer.php" ?>     
+    </body>
+</html>
