@@ -61,6 +61,7 @@ $dbHelper = new DBUntil();
                                 $users = $dbHelper->select("SELECT * FROM users WHERE idUser = $idUser");
                                 $image = $users[0]['image'];
                                 $role = $users[0]['role'];
+                                $name = $users[0]['name'];
                                 $textRole = '';
                              if(empty($image)){
                                     $image = "avt.png";
@@ -95,10 +96,13 @@ $dbHelper = new DBUntil();
                                     </a>
                                 </li>
                                 '. $textRole .'
-                                <li><a class="dropdown-item" href="logout.php">
+                                <div id="logout"></div>
+                                <li>
+                                    <a class="dropdown-item" href="logout.php" onclick="alertRemove(event, \''.$name.'\')">
                                         <i class="fa-solid fa-right-from-bracket mx-1"></i>
                                         Đăng xuất
-                                    </a></li>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                         '; } ?>
@@ -106,6 +110,47 @@ $dbHelper = new DBUntil();
             </ul>
         </div>
     </div>
+    <script>
+function alertRemove(event, content) {
+    event.preventDefault(); // Prevent default behavior of the <a> tag
+    let targetUrl = event.target.href; // Store target URL
+
+    let logout = document.getElementById('logout');
+    let alertHtml = `
+        <div class="container-fluid position_alert" id="alertBox">
+            <div class=" container bg-alert d-flex justify-content-center align-items-center w-50">
+                <div class="content_alert">
+                    <h3 class="text-center">Bạn có chắc chắn muốn đăng xuất "<b> ${content} </b>" ?</h3>
+                    <div class="icon-warning d-flex justify-content-center">
+                        <i class="fa-solid fa-triangle-exclamation fs-1 text-danger"></i>
+                    </div>
+                    <div class="btn-option d-flex justify-content-between mx-5 mt-4">
+                        <button class="btn btn-secondary text-white" onclick="abort()">Hủy</button>
+                        <button class="btn btn-danger" onclick="remove('${targetUrl}')">Đăng Xuất</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    logout.innerHTML = alertHtml;
+}
+
+function abort() {
+    let alertBox = document.getElementById('alertBox');
+    if (alertBox) {
+        alertBox.remove();
+    }
+}
+
+function remove(targetUrl) {
+    let alertBox = document.getElementById('alertBox');
+    if (alertBox) {
+        alertBox.remove();
+    }
+    // Redirect to the target URL
+    window.location.href = targetUrl;
+}
+</script>
     <div class="container-fluid p-0">
         <div class="d-flex justify-content-center align-items-center header-outstanding">
             <p class="link-cate m-1 fw-bold">BE CONFIDENT - <a href="#">OUT NOW</a></p>

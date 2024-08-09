@@ -223,7 +223,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <p class="fw-bold mb-2">1. Địa chỉ nhận hàng</p>
                                 <div class="detail-address px-2">
                                     <?php if (!$address) { ?>
+<<<<<<< HEAD
                                         <a href="add_address.php" class="add_to--address nav-link d-flex align-item-center ms-2">
+=======
+                                        <a href="add_address.php?id=<?php echo $_SESSION['id'] ?>" class="add_to--address nav-link d-flex align-item-center ms-2">
+>>>>>>> 10ba4a9e343adcd8d649d75fc56447720979c30c
                                             <i class="fa-solid fa-plus fs-3"></i>
                                             <label for="" class="ms-3">Thêm thông tin nhận hàng</label>
                                         </a>
@@ -288,6 +292,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <div class="coupon">
                                 <p class="fw-bold mb-2">4. Áp dụng mã giảm giá</p>
                                 <div class="coupon-input px-2">
+                                        <?php
+                                            
+                                        ?>
                                     <input type="search" name="coupon" id="coupon" placeholder="Nhập mã giảm giá">
                                     <button type="button">
                                         Sử dụng
